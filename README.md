@@ -47,9 +47,7 @@ You can then:
 
 * launch the user friendly interface as follow :
 
-  ***
-    Launch_myApp()
-  ***
+        Launch_myApp()
   
   ### Getting started
   
