@@ -143,10 +143,11 @@ In it, you see on the left a menu with the two parts: QC and Analysis. Both of t
     <img src="https://github.com/TeamPerie/CellDestiny/blob/main/images/Load_data.png">
 </p>
 ---
+A test dataset is available here https://github.com/TeamPerie/HadjAbed-et-al._2022
 
-## Article
+## Article describing CellDestiny
 
-Github repository of CellDestiny article is accesible here: https://github.com/TeamPerie/HadjAbed-et-al._2022.
+The article describing CellDestiny has been published here (to update when the paper is accepted) and the Github repository linked to the article is accesible here: https://github.com/TeamPerie/HadjAbed-et-al._2022.
 
 ## Authors
 
