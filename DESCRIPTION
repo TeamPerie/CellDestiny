@@ -1,0 +1,43 @@
+Package: CellDestiny
+Title: An RShiny application for the visualization and analysis of single cell lineage-tracing data
+Version: 1.1
+Authors@R: c(person(given = "Louisa",
+           family = "Hadj Abed",
+           role = c("aut", "cre"),
+           email = "louisa.hadj-abed@curie.fr"),
+	   person(given = "Leila",
+           family = "Perié",
+           role = c("aut"),
+           email = "leila.perie@curie.fr"))
+Description: Visualize sample qualities and highlight biological insights from your lineage-tracing data
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
+Depends: R (>= 4.1.0)
+Imports:
+    shiny,
+    shinydashboard,
+    shinyWidgets,
+    shinycustomloader,
+    gplots,
+    ggplot2,
+    ggtern,
+    ggforce,
+    ggpubr,
+    gridExtra,
+    plyr,
+    dplyr,
+    reshape2,
+    vroom,
+    stringr,
+    tibble,
+    vegan,
+    scales,
+    tidyr,
+    RColorBrewer,
+    rlang,
+    corrplot,
+    stats,
+    devtools
