@@ -140,7 +140,7 @@ In it, you see on the left a menu with the two parts: QC and Analysis. Both of t
 
 ---
 <p align="center" width="100%">
-    <img src="https://github.com/TeamPerie/CellDestiny/tree/main/images/Load_data.png">
+    <img src="https://github.com/TeamPerie/CellDestiny/blob/main/images/Load_data.png">
 </p>
 ---
 
