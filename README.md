@@ -1,7 +1,7 @@
 <br> 
 
 <p align="right" width="100%">
-    <img width="10%" src="https://github.com/TeamPerie/CellDestiny/tree/main/images/logoCurie.png">
+    <img width="10%" src="https://github.com/TeamPerie/CellDestiny/blob/main/images/logoCurie.png">
 </p>
 
 
