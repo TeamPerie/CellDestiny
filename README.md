@@ -10,7 +10,7 @@
 <br> 
 
 <p align="center" width="100%">
-    <img width="40%" src="https://github.com/TeamPerie/CellDestiny/tree/main/images/logoCelldestiny.jpg">
+    <img width="40%" src="https://github.com/TeamPerie/CellDestiny/blob/main/images/logoCelldestiny.jpg">
 </p>
 
 ## AIM :
@@ -70,7 +70,7 @@ Good news ! You can use the script [create_metadata.Rmd](https://github.com/Team
 
 ---
 <p align="center" width="100%">
-    <img src="https://github.com/TeamPerie/CellDestiny/tree/main/images/meta_script.png">
+    <img src="https://github.com/TeamPerie/CellDestiny/blob/main/images/meta_script.png">
 </p>
 ---
 
