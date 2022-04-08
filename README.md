@@ -1,7 +1,7 @@
 <br> 
 
 <p align="right" width="100%">
-    <img width="10%" src="https://github.com/Louisahadj/CellDestiny/blob/master/images/logoCurie.png">
+    <img width="10%" src="https://github.com/TeamPerie/CellDestiny/tree/main/images/logoCurie.png">
 </p>
 
 
@@ -10,7 +10,7 @@
 <br> 
 
 <p align="center" width="100%">
-    <img width="40%" src="https://github.com/Louisahadj/CellDestiny/blob/master/images/logoCelldestiny.jpg">
+    <img width="40%" src="https://github.com/TeamPerie/CellDestiny/tree/main/images/logoCelldestiny.jpg">
 </p>
 
 ## AIM :
@@ -56,7 +56,7 @@ You can then:
 
 2) Web application
 
-Otherwise, you can use the web application by clicking [here](add/URL/app).
+Otherwise, you can use the web application by clicking https://perie-team.shinyapps.io/CellDestiny/.
 
 ## INPUTS FORMAT
 
@@ -70,7 +70,7 @@ Good news ! You can use the script [create_metadata.Rmd](https://github.com/Team
 
 ---
 <p align="center" width="100%">
-    <img src="https://github.com/Louisahadj/CellDestiny/blob/V1.1/images/meta_script.png">
+    <img src="https://github.com/TeamPerie/CellDestiny/tree/main/images/meta_script.png">
 </p>
 ---
 
@@ -134,13 +134,13 @@ Inputs matrices examples can be found in this directory [testData/LentiviralBarc
 
 To start, play with the web app test dataset. 
 
-To do so, click on the link[web/app/URL] to open the web application. 
+To do so, click on the [link](https://perie-team.shinyapps.io/CellDestiny/) to open the web application. 
 
 In it, you see on the left a menu with the two parts: QC and Analysis. Both of them have their respective "Load data" sub-parts where you can load your matrix and metadata files. 
 
 ---
 <p align="center" width="100%">
-    <img src="https://github.com/Louisahadj/CellDestiny/blob/V1.1/images/Load_data.png">
+    <img src="https://github.com/TeamPerie/CellDestiny/tree/main/images/Load_data.png">
 </p>
 ---
 
