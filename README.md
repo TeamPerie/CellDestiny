@@ -132,7 +132,7 @@ Inputs matrices examples can be found in this directory [testData/LentiviralBarc
 
 ## GETTING STARTED
 
-To start, play with the web app test dataset. 
+To start, play with the web app test dataset available online. 
 
 To do so, click on the [link](https://perie-team.shinyapps.io/CellDestiny/) to open the web application. 
 
@@ -143,7 +143,7 @@ In it, you see on the left a menu with the two parts: QC and Analysis. Both of t
     <img src="https://github.com/TeamPerie/CellDestiny/blob/main/images/Load_data.png">
 </p>
 ---
-A test dataset is available here https://github.com/TeamPerie/HadjAbed-et-al._2022
+
 
 ## Article describing CellDestiny
 
