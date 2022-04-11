@@ -38,7 +38,7 @@ Previous to its installation, you'll need all packages listed in DESCRIPTION fil
 
   ***
     library(devtools)
-    devtools::install_github("Louisahadj/CellDestiny", dependencies=TRUE)
+    devtools::install_github("TeamPerie/CellDestiny", quiet = TRUE)
   ***
   
 You can then:

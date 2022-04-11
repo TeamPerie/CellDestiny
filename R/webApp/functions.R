@@ -1376,7 +1376,6 @@ PlotCategoryCounts<-function(catCountMatx, threshold=10,conditionVal="", textSiz
 CalculDiversity<-function(matrix, metadata, indivVar, indivVal, listVar, listVal ,colorVar="", diversity="Number of barcodes"){
   longMtx<-WideToLong(matrix, metadata)
   lgSubMatx<-LongSubMatrix(longMtx, indivVar, indivVal, listVar, listVal, metadata)
-  print(lgSubMatx)
 
   ## Hill formula
   Dq = function(x,q) {
@@ -1388,8 +1387,8 @@ CalculDiversity<-function(matrix, metadata, indivVar, indivVal, listVar, listVal
   # 1<variable selected by user, merge them
   # + no color = calcul the diversity by individuals and merged variables
   if(nb_var>1 && colorVar==""){
-    print("in")
-    lgSubMatx$NewVar<-apply(select(lgSubMatx, c(listVar)) , 1 , paste , collapse = "_" )
+
+      lgSubMatx$NewVar<-apply(select(lgSubMatx, c(listVar)) , 1 , paste , collapse = "_" )
     # Number of barcodes
     if(diversity=="Number of barcodes"){
       diversityMatrix<-aggregate(lgSubMatx$counts~lgSubMatx[,indivVar]+lgSubMatx$NewVar, data = lgSubMatx,
