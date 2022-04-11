@@ -30,9 +30,9 @@ After plotting, images and their corresponding matrices can be downloaded such t
 
 ## HOW TO USE
 
-There are 2 ways to use the app. The first one is by **installing the package** thanks to Rstudio. The second one is to use the **web application**. 
+There are 3 ways to use CellDestiny. The first one is to use the package in Rstudio, the second one is to launch the shiny app from the package in Rstudio. The third one is to use the **web application**. 
 
-1) Package installation in Rstudio
+1) Package installation in Rstudio 
 
 Previous to its installation, you'll need all packages listed in DESCRIPTION file ("Imports" section) installed and an R version>= 4.1.0
 
@@ -43,7 +43,11 @@ Previous to its installation, you'll need all packages listed in DESCRIPTION fil
   
 You can then:
 
-* use the functions from the package to explore your data as done [here](https://github.com/TeamPerie/HadjAbed-et-al._2022/blob/main/code_for_figures/LentiviralBarcodingData/2.ANALYSIS_matrices/scripts/2.lentiviralbarcoding_DC1_DC2_ANALYSIS.Rmd) for example or 
+* use the functions from the package to explore your data as done [here](https://github.com/TeamPerie/HadjAbed-et-al._2022/blob/main/code_for_figures/LentiviralBarcodingData/2.ANALYSIS_matrices/scripts/2.lentiviralbarcoding_DC1_DC2_ANALYSIS.Rmd) for example 
+ 
+2) Rsyny app from Rstudio
+
+* first install install the package as in 1)
 
 * launch the user friendly interface as follow :
 
@@ -54,7 +58,7 @@ You can then:
   To use the app, install as written above and click on the load data button in the load section on the right (( add picture))
 
 
-2) Web application
+3) Web application
 
 Otherwise, you can use the web application by clicking https://perie-team.shinyapps.io/CellDestiny/.
 
