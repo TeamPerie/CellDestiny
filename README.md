@@ -43,7 +43,7 @@ Previous to its installation, you'll need all packages listed in DESCRIPTION fil
   
 You can then:
 
-* use the functions from the package to explore your data as done [here](https://github.com/TeamPerie/HadjAbed-et-al._2022/blob/main/code_for_figures/LentiviralBarcodingData/2.ANALYSIS_matrices/scripts/2.lentiviralbarcoding_DC1_DC2_ANALYSIS.Rmd) for example 
+* use the functions from the package to explore your data as done [here](https://github.com/TeamPerie/HadjAbed-et-al._2022/blob/main/data_and_code/LentiviralBarcodingData/2.ANALYSIS/scripts/2.lentiviralbarcoding_DC1_DC2_ANALYSIS.Rmd) for example 
  
 2) Rsyny app from Rstudio
 
@@ -53,10 +53,6 @@ You can then:
 
         Launch_myApp()
   
-  ### Getting started
-  
-  To use the app, install as written above and click on the load data button in the load section on the right (( add picture))
-
 
 3) Web application
 
