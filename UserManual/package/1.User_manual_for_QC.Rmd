@@ -1,8 +1,8 @@
 ---
 title: "User manual for QC"
 author: "Louisa Hadj Abed"
-date: "4/06/202"
-output: html_document
+date: "4/06/2022"
+output: pdf_document
 ---
 
 <br/>
@@ -61,7 +61,7 @@ head(qc_mat)
 
 ##### Here we look at the consistency of technical replicates.
 
-![](../images/duplicates_check.png)
+![](../../images/duplicates_check.png)
 
 
 ##### We want to plot duplciates of all samples, not specific ones. To do so, we select all values from a variable (here variable type and its values).
@@ -80,7 +80,7 @@ PlotDuplicates(dup_mat, dup_val, transformation = "arcsin")
 ##### Here we assess the frequency of repeat use barcodes in the data. Repeat used barcodes are compared between individuals. Hence, fill out the variable name describing your individuals and all its values.
 
 
-![](../images/repeat_use.png)
+![](../../images/repeat_use.png)
 
 
 ```{r, echo=TRUE, warning=FALSE, message=FALSE}

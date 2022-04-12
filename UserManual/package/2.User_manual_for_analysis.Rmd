@@ -1,8 +1,8 @@
 ---
 title: "User manual for analaysis"
 author: "Louisa Hadj Abed"
-date: "4/06/202"
-output: html_document
+date: "4/06/2022"
+output: pdf_document
 ---
 
 <br/>
@@ -31,8 +31,8 @@ library(CellDestiny)
 # set working directory
 setwd(getwd())
 # import files
-count_matrix <- read.csv("../testData/LentiviralBarcodingData/Analysis_data/Analysis_matrix_Mouse_Lung_cDCs.csv.gz")
-metadata <- read.csv("../testData/LentiviralBarcodingData/Analysis_data/Analysis_matrix_Mouse_Lung_cDCs_metadata.csv.gz")
+count_matrix <- read.csv("../../testData/LentiviralBarcodingData/Analysis_data/Analysis_matrix_Mouse_Lung_cDCs.csv.gz")
+metadata <- read.csv("../../testData/LentiviralBarcodingData/Analysis_data/Analysis_matrix_Mouse_Lung_cDCs_metadata.csv.gz")
 metadata
 ```
 
