@@ -134,15 +134,15 @@ Inputs matrices examples can be found in this directory [testData/LentiviralBarc
 
 ## USER MANUAL
 
-To have an overview of CellDestiny functionalities, check out [User Manual]() directory. You'll find all possible QC, analysis and graphs that CellDestiny proposes. 
+To have an overview of CellDestiny functionalities, check out [User Manual](https://github.com/TeamPerie/CellDestiny/tree/main/UserManual) directory. You'll find all possible QC, analysis and graphs that CellDestiny proposes. 
 
 1) For package users
 
-Read [package/ subdirectory]() html files (download them on your computer to visualize them) or re-run Rmd files to practice.
+Read [package/ subdirectory](https://github.com/TeamPerie/CellDestiny/tree/main/UserManual/package) pdf files or re-run Rmd files to practice.
 
 2) For app users
 
-Read [app/ subdirectory]() html files (download them on your computer to visualize them) or re-run Rmd files to practice.
+Read [app/ subdirectory](https://github.com/TeamPerie/CellDestiny/tree/main/UserManual/app) pdf file.
 
 To play with the web app "test dataset", click on the [link](https://perie-team.shinyapps.io/CellDestiny/) to open the web application. 
 

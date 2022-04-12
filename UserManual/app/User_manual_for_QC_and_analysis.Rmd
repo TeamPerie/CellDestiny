@@ -15,6 +15,11 @@ output: pdf_document
 
 ##### Go on the web app : \url{https://perie-team.shinyapps.io/CellDestiny/}.
 
+In it, you see on the left a menu with the two parts: QC and Analysis. Both of them have their respective "Load data" sub-parts where you can load your matrix and metadata files. 
+
+To play with the test dataset, do as shown in the README.
+
+
 ```{r setup, include=FALSE, warning=FALSE, message=FALSE}
 library(ggplot2)
 library(devtools)
@@ -35,16 +40,16 @@ setwd(getwd())
 # import files
 count_matrix <- read.csv("../../testData/LentiviralBarcodingData/QC_data/QC_duplicate_matrix_Mouse_Lung_cDCs.csv.gz")
 metadata <- read.csv("../../testData/LentiviralBarcodingData/QC_data/QC_duplicate_matrix_Mouse_Lung_cDCs_metadata.csv.gz")
-
-metadata
 ```
 
-##### Here, it is "duplicates".
+##### For the test dataset, it is "duplicates".
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 # Common parameters
 dup_var="duplicates"
 dup_val=metadata$duplicates
+
+metadata
 
 qc_mat<-ReformatQCmatrix(count_matrix, metadata, dup_var, dup_val, sampleNameFieldsep = "_", transformation = "arcsin")
 
@@ -95,6 +100,9 @@ PlotRepeatUse(ru_mat, indiv_var,textSize = 12)
 ### Load data and select individuals variable name 
 
 ##### The first step of the analysis part of the app is to load count and metadata matrcies and select the variable describing your ***individuals***. It corresponds to one of your metadata column name. 
+
+##### For the test dataset, it is "mouse".
+
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 # set working directory
