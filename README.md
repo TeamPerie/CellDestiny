@@ -41,11 +41,13 @@ Previous to its installation, you'll need all packages listed in DESCRIPTION fil
     devtools::install_github("TeamPerie/CellDestiny", quiet = TRUE)
   ***
   
+Make sure you have internet access. 
+
 You can then:
 
-* use the functions from the package to explore your data as done [here](https://github.com/TeamPerie/HadjAbed-et-al._2022/blob/main/data_and_code/LentiviralBarcodingData/2.ANALYSIS/scripts/2.lentiviralbarcoding_DC1_DC2_ANALYSIS.Rmd) for example 
+* use functions from the package to explore your data like done in [GettingStarted]() directory. 
  
-2) Rsyny app from Rstudio
+2) Rshiny app from Rstudio
 
 * first install install the package as in 1)
 
@@ -66,7 +68,7 @@ To use the app, you need two input files:
 1. the **count matrix** with samples in columns and cell identifier (i.e. barcodes) in rows
 2. the corresponding **metadata**, listing all sample **variables** used in sample **names**
 
-Good news ! You can use the script [create_metadata.Rmd](https://github.com/TeamPerie/HadjAbed-et-al._2022/blob/main/code_for_figures/GeneTherapy/ANALYSIS_matrices/scripts/1.create_metadata.Rmd) from [HadjAbed-et-al._2022](https://github.com/TeamPerie/HadjAbed-et-al._2022) article to generate your metadata file. Juste adapt to your data the "fill parameters" section. 
+Good news ! You can use the script [create_metadata.Rmd](https://github.com/TeamPerie/HadjAbed-et-al._2022/blob/main/code_for_figures/GeneTherapy/ANALYSIS_matrices/scripts/1.create_metadata.Rmd) from [HadjAbed-et-al._2022](https://github.com/TeamPerie/HadjAbed-et-al._2022) article to generate your metadata file. You just need to adapt the "fill parameters" section to your data. 
 
 ---
 <p align="center" width="100%">
@@ -132,9 +134,13 @@ Inputs matrices examples can be found in this directory [testData/LentiviralBarc
 
 ## GETTING STARTED
 
-To start, play with the web app test dataset available online. 
+1) With the package 
 
-To do so, click on the [link](https://perie-team.shinyapps.io/CellDestiny/) to open the web application. 
+Read [GettingStarted]() html files or re-run Rmd files to practice.
+
+2) With the web app
+
+To play with the web app "test dataset", click on the [link](https://perie-team.shinyapps.io/CellDestiny/) to open the web application. 
 
 In it, you see on the left a menu with the two parts: QC and Analysis. Both of them have their respective "Load data" sub-parts where you can load your matrix and metadata files. 
 
