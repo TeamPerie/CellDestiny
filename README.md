@@ -136,7 +136,7 @@ Inputs matrices examples can be found in this directory [testData/LentiviralBarc
 
 1) With the package 
 
-Read [GettingStarted]() html files or re-run Rmd files to practice.
+Read [GettingStarted](https://github.com/TeamPerie/CellDestiny/tree/main/GettingStarted) html files or re-run Rmd files to practice.
 
 2) With the web app
 
