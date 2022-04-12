@@ -132,13 +132,17 @@ And its metadata:
 
 Inputs matrices examples can be found in this directory [testData/LentiviralBarcodingData/](https://github.com/Louisahadj/CellDestiny/tree/master/testData/LentiviralBarcodingData). 
 
-## GETTING STARTED
+## USER MANUAL
 
-1) With the package 
+To have an overview of CellDestiny functionalities, check out [User Manual]() directory. You'll find all possible QC, analysis and graphs that CellDestiny proposes. 
 
-Read [GettingStarted](https://github.com/TeamPerie/CellDestiny/tree/main/GettingStarted) html files or re-run Rmd files to practice.
+1) For package users
 
-2) With the web app
+Read [package/ subdirectory]() html files (download them on your computer to visualize them) or re-run Rmd files to practice.
+
+2) For app users
+
+Read [app/ subdirectory]() html files (download them on your computer to visualize them) or re-run Rmd files to practice.
 
 To play with the web app "test dataset", click on the [link](https://perie-team.shinyapps.io/CellDestiny/) to open the web application. 
 
