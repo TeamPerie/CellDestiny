@@ -15,7 +15,7 @@
 
 ## AIM :
 
-CellDestiny is a user-friendly RShiny application that allow you to easily visualize and analyze single cell lineage-tracing datasets (lentiviral barcoding, integration site gene therapy, CRISPR gene therapy, etc.).
+CellDestiny is a user-friendly RShiny application that allows you to easily visualize and analyze single cell lineage-tracing datasets (lentiviral barcoding, integration site gene therapy, CRISPR gene therapy, etc.).
 
 CellDestiny comprises two distinct modules: 
 
