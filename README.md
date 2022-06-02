@@ -22,7 +22,7 @@ CellDestiny comprises two distinct modules:
 1. Visualisation of Quality Control Parameters 
 2. Data Visualisation and Analysis
 
-The **QC** module enables the user to check the consistency of technical replicates to and to check for repeat-use barcodes across individuals. 
+The **QC** module enables the user to check the consistency of technical replicates and to check for repeat-use barcodes across individuals. 
 
 The **analysis** module enables the user to explore the data through several graphing options to assess clonal diversity, clone-size distributions as well as barcode sharing.
 
