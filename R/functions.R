@@ -1482,6 +1482,7 @@ CalculDiversity<-function(matrix, metadata, indivVar, indivVal, listVar, listVal
 #'
 #' @export
 PlotDiversity <- function(matrix, diversity, listVar, indivVar, colorVar="", dots="no", labels="no", textSize=15){
+  mycolors <- colorRampPalette(brewer.pal(8, "Set2"))(20)
   # If diversity in y :
   #}else{
   nb_var<-length(listVar)
@@ -1512,7 +1513,7 @@ PlotDiversity <- function(matrix, diversity, listVar, indivVar, colorVar="", dot
       geom_boxplot(color="black")+
       theme_classic() +
       xlab("")+
-      scale_fill_manual(values = brewer.pal(8,name = "Set2"))+
+      scale_fill_manual(values = mycolors)+
       theme(legend.position = 'none')
     # if color
   }else if (nb_var==1 && colorVar!="") {
