@@ -45,7 +45,7 @@ Make sure you have internet access.
 
 You can then:
 
-* use functions from the package to explore your data like done in [UserManual](https://github.com/TeamPerie/CellDestiny/tree/main/UserManual) directory. 
+* use functions from the package to explore your data like done in [UserManual](https://github.com/TeamPerie/CellDestiny/tree/main/UserManual/package) directory. 
  
 2) Rshiny app from Rstudio
 
