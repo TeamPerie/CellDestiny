@@ -30,7 +30,7 @@ After plotting, images and their corresponding matrices can be downloaded such t
 
 ## HOW TO USE
 
-There are 3 ways to use CellDestiny. The first one is to use the package in Rstudio, the second one is to launch the shiny app from the package in Rstudio. The third one is to use the **web application**. 
+There are 3 ways to use CellDestiny. The first one is to use the **package** in Rstudio, the second one is to **launch the shiny app from the package** in Rstudio. The third one is to use the **web application**. 
 
 1) Package installation in Rstudio 
 
