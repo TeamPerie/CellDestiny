@@ -30,9 +30,13 @@ After plotting, images and their corresponding matrices can be downloaded such t
 
 ## HOW TO USE
 
-There are 3 ways to use CellDestiny. The first one is to use the **package** in Rstudio, the second one is to **launch the shiny app from the package** in Rstudio. The third one is to use the **web application**. 
+There are 3 ways to use CellDestiny. The first one is to use the graphical user interface **(GUI) through the web application**, the second one is to use the **GUI through the installation of CellDestiny** package on RStudio. The third one is to use directly use CellDestiny **package functions (no GUI)**.
 
-1) Package installation in Rstudio 
+1) Web application
+
+The simplest way to use the app is to open the web application by clicking https://perie-team.shinyapps.io/CellDestiny/.
+
+2) Installation of the package in Rstudio 
 
 Previous to its installation, you'll need all packages listed in [DESCRIPTION](https://github.com/TeamPerie/CellDestiny/blob/main/DESCRIPTION) file ("Imports" section) installed and an R version>= 4.1.0
 
@@ -43,24 +47,19 @@ Previous to its installation, you'll need all packages listed in [DESCRIPTION](h
   
 Make sure you have internet access. 
 
-You can then:
+2.a) GUI from from Rstudio
 
-1) Package functions
+Once the package is intsalled, you can launch the app as follow:
+
+***
+        Launch_myApp()
+***
+
+
+2.b) Package functions
 
 * use functions from the package to explore your data like done in [UserManual](https://github.com/TeamPerie/CellDestiny/tree/main/UserManual/package) directory. 
- 
-2) Rshiny app from Rstudio
 
-* first install install the package as in 1)
-
-* launch the user friendly interface as follow :
-
-        Launch_myApp()
-  
-
-3) Web application
-
-Otherwise, you can use the web application by clicking https://perie-team.shinyapps.io/CellDestiny/.
 
 ## INPUTS FORMAT
 
