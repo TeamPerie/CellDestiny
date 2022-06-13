@@ -34,7 +34,7 @@ There are 3 ways to use CellDestiny. The first one is to use the **package** in 
 
 1) Package installation in Rstudio 
 
-Previous to its installation, you'll need all packages listed in DESCRIPTION file ("Imports" section) installed and an R version>= 4.1.0
+Previous to its installation, you'll need all packages listed in [DESCRIPTION](https://github.com/TeamPerie/CellDestiny/blob/main/DESCRIPTION) file ("Imports" section) installed and an R version>= 4.1.0
 
   ***
     library(devtools)
