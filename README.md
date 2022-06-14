@@ -160,29 +160,6 @@ And its metadata:
 
 Inputs matrices examples can be found in this directory [testData/LentiviralBarcodingData/](https://github.com/Louisahadj/CellDestiny/tree/master/testData/LentiviralBarcodingData). 
 
-## USER MANUAL
-
-To have an overview of CellDestiny functionalities, check out [User Manual](https://github.com/TeamPerie/CellDestiny/tree/main/UserManual) directory. You'll find all possible QC, analysis and graphs that CellDestiny proposes. 
-
-1) For package users
-
-Read [package/ subdirectory](https://github.com/TeamPerie/CellDestiny/tree/main/UserManual/package) pdf files or re-run Rmd files to practice.
-
-2) For app users
-
-Read [app/ subdirectory](https://github.com/TeamPerie/CellDestiny/tree/main/UserManual/app) pdf file.
-
-To play with the web app "test dataset", click on the [link](https://perie-team.shinyapps.io/CellDestiny/) to open the web application. 
-
-In it, you see on the left a menu with the two parts: QC and Analysis. Both of them have their respective "Load data" sub-parts where you can load your matrix and metadata files. 
-
----
-<p align="center" width="100%">
-    <img src="https://github.com/TeamPerie/CellDestiny/blob/main/images/Load_data.png">
-</p>
----
-
-
 ## Article describing CellDestiny
 
 The article describing CellDestiny has been published here (to update when the paper is accepted) and the Github repository linked to the article is accesible here: https://github.com/TeamPerie/HadjAbed-et-al._2022.
