@@ -64,6 +64,25 @@ NB: If you want to play with test data, first clone the github repository and mo
 * use functions from the package to explore your data like done in [UserManual](https://github.com/TeamPerie/CellDestiny/tree/main/UserManual/package) directory. 
 
 
+USER MANUAL
+To have an overview of CellDestiny functionalities, check out User Manual directory. You'll find all possible QC, analysis and graphs that CellDestiny proposes.
+
+For package users
+Read package/ subdirectory pdf files or re-run Rmd files to practice.
+
+For app users
+Read app/ subdirectory pdf file.
+
+To play with the web app "test dataset", click on the link to open the web application.
+
+In it, you see on the left a menu with the two parts: QC and Analysis. Both of them have their respective "Load data" sub-parts where you can load your matrix and metadata files.
+
+
+
+---
+
+
+
 ## INPUTS FORMAT
 
 ### Sample names and metadata
