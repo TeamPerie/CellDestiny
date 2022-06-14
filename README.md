@@ -57,6 +57,7 @@ Once the package is intsalled, you can launch the app as follow:
         Launch_myApp()
 ***
 
+NB: If you want to play with test data, first clone the github repository and move at its root in Rstudio before launching the app at the same place.
 
 ### 2.b) Package functions
 
