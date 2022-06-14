@@ -104,7 +104,7 @@ The corresponding metadata file for these samples must then be provided in the f
 With variables as column names with their listed values.
 
 What is important here is that:
-1. all columns must contain the **list of all values** (i.e. LT, LB) of variables (i.e. cellType) used in your sample names. The **Ordering** of metadata **columns** must match the ordering of your **sample variables**. 
+1. all columns must contain the **list of all values** (i.e. LT, LB) of variables (i.e. cellType) used in your sample names. The **Ordering** of metadata **columns** must match the ordering of your **sample variables** (ie first cellType and then treatment to match LT_IFN for example). 
 2. all values have to be written in the **exact same way** than in the sample names names (i.e. be careful when using uppercase lettering and avoid white spaces within sample names)
 3. an underscore (**"_"**) has to be used **only as a variable name separator** and must not be used in value names
 
