@@ -797,7 +797,7 @@ PlotBarcodeFrequencies<- function(subLgMatrix, colorVar="", y="density", nbins=5
 #' @return a correlogram
 #'
 #' @export
-PlotCorrelogram<-function(matrix, correlation="spearman", textSize=){
+PlotCorrelogram<-function(matrix, correlation="spearman"){
   corr_matx<-cor(matrix, method = correlation)
   corr<-corrplot(corr_matx,
                  col=brewer.pal(7,"GnBu"),
