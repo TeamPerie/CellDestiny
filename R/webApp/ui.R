@@ -199,12 +199,20 @@ ui_myApp<-function() {
                              label = "Which transformation do you want to apply? ", inline = TRUE,
                              selected = "arcsin",
                              choices = c("arcsin", "log10(x+1)", "none"))
+              ),
+
+              box(width = NULL, status ="primary",height = NULL,solidHeader = TRUE,
+                  radioButtons(inputId = "QCtransformation",
+                               label = "Which transformation do you want to apply? ", inline = TRUE,
+                               selected = "arcsin",
+                               choices = c("arcsin", "log10(x+1)", "none"))
+              ),
+              box(width = NULL, status ="primary",height = NULL,solidHeader = TRUE,
+                  radioButtons(inputId = "correlDup",
+                               label = "Choose your correlation method :", inline = TRUE,
+                               choices = c("spearman", "pearson"),
+                               selected = "spearman")
               )
-
-              # box(width = NULL, status ="primary",height = NULL,solidHeader = TRUE,
-              #     sliderInput("sliderQC", label = "Correlation threshold:", min = 0,
-              #                 max = 1, value = 0))
-
             )
            ), # end of column user questions
 
@@ -417,6 +425,12 @@ ui_myApp<-function() {
      ####  Correlogram  ####
      #######################
       conditionalPanel("input.graph_sampleSim=='Correlogram'",
+      box(width = NULL, title="Graph options", status ="primary",solidHeader = TRUE,
+        box(width = NULL, status ="primary",height = NULL,solidHeader = TRUE,
+          radioButtons(inputId = "correlation",
+                      label = "Choose your correlation method :", inline = TRUE,
+                      choices = c("spearman", "pearson"),
+                      selected = "spearman"))),
        box(align="center", width = "100%", height = "100%",
            #uiOutput("CloneSizeUI"),
            conditionalPanel("input.value.length==0 ",

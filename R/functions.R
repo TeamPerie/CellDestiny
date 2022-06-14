@@ -280,11 +280,12 @@ NormByBcAbundance<-function(matrix, nbVal){
 #' @param dupVal, duplicate values
 #' @param sampleNameFieldsep, sample name variable separatorn default "_"
 #' @param transformation, transformation to use, default is "arcsin". Other "log10(x+1)" or "none"
+#' @param correlation, correlation, "spearman" (default) or "pearson"
 #'
 #' @return a long format QC matrix
 #'
 #' @export
-ReformatQCmatrix<-function(matrix, metadata, dupVar, dupVal, sampleNameFieldsep="_", transformation="arcsin"){
+ReformatQCmatrix<-function(matrix, metadata, dupVar, dupVal, sampleNameFieldsep="_", transformation="arcsin", correlation="spearman"){
   # user selection
   qc_matrix<-WideToLong(matrix, metadata)
   # reformat to have one column per duplicate
@@ -299,7 +300,7 @@ ReformatQCmatrix<-function(matrix, metadata, dupVar, dupVal, sampleNameFieldsep=
   # add spearman correlation + pval informations
   cor_samples_ab <- qc_matrix %>%
     group_by(Sample_names) %>%
-    mutate(cor=trunc(cor(get(dupVal[1]), get(dupVal[2]), use="na", method = "spearman")*10^2)/10^2) %>%
+    mutate(cor=trunc(cor(get(dupVal[1]), get(dupVal[2]), use="na", method = correlation)*10^2)/10^2) %>%
     select(c(Sample_names, cor))
   qc_matrix<-merge(qc_matrix, data.frame(cor_samples_ab), by="Sample_names")
   if(transformation=="arcsin"){
@@ -796,18 +797,13 @@ PlotBarcodeFrequencies<- function(subLgMatrix, colorVar="", y="density", nbins=5
 #' @return a correlogram
 #'
 #' @export
-PlotCorrelogram<-function(matrix){
-  testRes <- cor.mtest(matrix, conf.level = 0.95)
-  corr_matx<-cor(matrix, method = "spearman")
+PlotCorrelogram<-function(matrix, correlation="spearman", textSize=){
+  corr_matx<-cor(matrix, method = correlation)
   corr<-corrplot(corr_matx,
                  col=brewer.pal(7,"GnBu"),
                  type = 'upper',
-                 p.mat = testRes$p,
-                 insig = 'label_sig',
-                 sig.level = c(0.001, 0.01, 0.05),
-                 tl.col = "black",
-                 pch.cex = 2,
-                 pch.col = "white")
+                 method = 'circle',
+                 tl.col = "black")
   return(corr)
 }
 

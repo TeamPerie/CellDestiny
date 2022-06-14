@@ -141,7 +141,7 @@ server_myApp<-function(input, output, session) {
 
   dupMatrix<-reactive({
     if(length(input$valRep)>0 && input$replicats_var!=""){
-      qc_mat<-ReformatQCmatrix(rep_matrix(), rep_metadata(), input$replicats_var, dup_val(), transformation = input$QCtransformation)
+      qc_mat<-ReformatQCmatrix(rep_matrix(), rep_metadata(), input$replicats_var, dup_val(), transformation = input$QCtransformation, input$correlDup)
       dup_mat<-MakeDuplicatesMatrix(qc_mat, input$varRep,input$valRep, rep_metadata())
       dup_mat
     }
@@ -317,7 +317,7 @@ server_myApp<-function(input, output, session) {
     metRU<-rep_metadata()
     dupVarRu<-input$replicats_var
     if(input$indiv_varRU!="" && length(input$indiv_valRU)>=2){
-      qc_matRU<-ReformatQCmatrix(matxRu, metRU, dupVar = dupVarRu , dup_valRU())
+      qc_matRU<-ReformatQCmatrix(matxRu, metRU, dupVar = dupVarRu , dup_valRU(), transformation = input$QCtransformation, input$correlDup)
       ru_mat<-MakeRepeatUseMatrix(qc_matRU, input$indiv_varRU, input$indiv_valRU)
       ru_mat
     }
@@ -684,11 +684,11 @@ server_myApp<-function(input, output, session) {
       need(checkMice()==0, "Please, select separated individuals OR 'Pooled individuals' but you can't select both")
     )
     ## end test
-    PlotCorrelogram(sub_matrix())
+    PlotCorrelogram(sub_matrix(), input$correlation)
    })
 
   ## Export
-  correloImage <- function(){PlotCorrelogram(sub_matrix())}
+  correloImage <- function(){PlotCorrelogram(sub_matrix(), input$correlation)}
 
   output$downloadImage_correlo <- downloadHandler(filename = function() {paste0("correlo_", input$organismSample,".pdf")},
                                                   content = function(fname){
