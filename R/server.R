@@ -37,7 +37,7 @@ server_myApp<-function(input, output, session) {
   ## Get matrix
   rep_matrix <- reactive({
     if(input$QC_testdataLoder=="Yes"){
-      tab=read.csv("dataTest/LentiviralBarcodingData/QC_data/QC_duplicate_matrix_Mouse_Lung_cDCs.csv.gz", check.names = FALSE)
+      tab=read.csv("testData/LentiviralBarcodingData/QC_data/QC_duplicate_matrix_Mouse_Lung_cDCs.csv.gz", check.names = FALSE)
 
     }else{
       req(input$replicats_matrix)
@@ -56,7 +56,7 @@ server_myApp<-function(input, output, session) {
   ## Get metadata
   rep_metadata <- reactive({
     if(input$QC_testdataLoder=="Yes"){
-      tab=read.csv("dataTest/LentiviralBarcodingData/QC_data/QC_duplicate_matrix_Mouse_Lung_cDCs_metadata.csv.gz", check.names = FALSE)
+      tab=read.csv("testData/LentiviralBarcodingData/QC_data/QC_duplicate_matrix_Mouse_Lung_cDCs_metadata.csv.gz", check.names = FALSE)
     } else {
       req(input$replicats_metadata)
       # Check metadata extension
@@ -87,10 +87,10 @@ server_myApp<-function(input, output, session) {
    if(input$QC_testdataLoder=="Yes"){
     # Count Matrix
     session$sendCustomMessage("upload_txt_matQC", "QC_duplicate_matrix_Mouse_Lung_cDCs.csv.gz")
-    output$contents_matQC<-renderDataTable(expr = head(read.csv("dataTest/LentiviralBarcodingData/QC_data/QC_duplicate_matrix_Mouse_Lung_cDCs.csv.gz", check.names = FALSE)))
-    # Count Matrix Metadata
-    session$sendCustomMessage("upload_txt_metQC", "QC_duplicate_matrix_Mouse_Lung_cDCs_metadata.csv.gz")
-    output$contents_metQC<-renderDataTable(expr = head(read.csv("dataTest/LentiviralBarcodingData/QC_data/QC_duplicate_matrix_Mouse_Lung_cDCs_metadata.csv.gz", check.names = FALSE)))
+     output$contents_matQC<-renderDataTable(expr = head(read.csv("testData/LentiviralBarcodingData/QC_data/QC_duplicate_matrix_Mouse_Lung_cDCs.csv.gz", check.names = FALSE)))
+     # Count Matrix Metadata
+     session$sendCustomMessage("upload_txt_metQC", "QC_duplicate_matrix_Mouse_Lung_cDCs_metadata.csv.gz")
+     output$contents_metQC<-renderDataTable(expr = head(read.csv("testData/LentiviralBarcodingData/QC_data/QC_duplicate_matrix_Mouse_Lung_cDCs_metadata.csv.gz", check.names = FALSE)))
    }else{
      session$sendCustomMessage("upload_txt_matQC", "Load your count matrix")
      session$sendCustomMessage("upload_txt_metQC", "Load your metadata matrix")
@@ -431,7 +431,7 @@ server_myApp<-function(input, output, session) {
   ## Get matrix
   matrix <- reactive({
     if(input$Analysis_testdataLoder=="Yes"){
-      tab=read.csv("dataTest/LentiviralBarcodingData/Analysis_data/Analysis_matrix_Mouse_Lung_cDCs.csv.gz")
+      tab=read.csv("testData/LentiviralBarcodingData/Analysis_data/Analysis_matrix_Mouse_Lung_cDCs.csv.gz")
     }else{
       req(input$matrix)
       # Check file extension
@@ -448,7 +448,7 @@ server_myApp<-function(input, output, session) {
   ## Get metadata
   metadata <- reactive({
     if(input$Analysis_testdataLoder=="Yes"){
-      tab=read.csv("dataTest/LentiviralBarcodingData/Analysis_data/Analysis_matrix_Mouse_Lung_cDCs_metadata.csv.gz", check.names = F)
+      tab=read.csv("testData/LentiviralBarcodingData/Analysis_data/Analysis_matrix_Mouse_Lung_cDCs_metadata.csv.gz", check.names = F)
     }else{
       req(input$metadata)
       # Check metadata extension
@@ -466,9 +466,9 @@ server_myApp<-function(input, output, session) {
   observeEvent(input$Analysis_testdataLoder, {
     if(input$Analysis_testdataLoder=="Yes"){
       session$sendCustomMessage("upload_txt_mat", "Analysis_matrix_Mouse_Lung_cDCs.csv.gz")
-      output$contents_mat<-renderDataTable(expr = head(read.csv("dataTest/LentiviralBarcodingData/Analysis_data/Analysis_matrix_Mouse_Lung_cDCs.csv.gz")))
+      output$contents_mat<-renderDataTable(expr = head(read.csv("testData/LentiviralBarcodingData/Analysis_data/Analysis_matrix_Mouse_Lung_cDCs.csv.gz")))
       session$sendCustomMessage("upload_txt_met", "Analysis_matrix_Mouse_Lung_cDCs_metadata.csv.gz")
-      output$contents_met<-renderDataTable(expr = head(read.csv("dataTest/LentiviralBarcodingData/Analysis_data/Analysis_matrix_Mouse_Lung_cDCs_metadata.csv.gz")))
+      output$contents_met<-renderDataTable(expr = head(read.csv("testData/LentiviralBarcodingData/Analysis_data/Analysis_matrix_Mouse_Lung_cDCs_metadata.csv.gz")))
     }else{
       session$sendCustomMessage("upload_txt_mat", "Load your count matrix")
       session$sendCustomMessage("upload_txt_met", "Load your metadata matrix")
