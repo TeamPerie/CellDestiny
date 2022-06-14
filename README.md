@@ -64,21 +64,26 @@ NB: If you want to play with test data, first clone the github repository and mo
 * use functions from the package to explore your data like done in [UserManual](https://github.com/TeamPerie/CellDestiny/tree/main/UserManual/package) directory. 
 
 
-USER MANUAL
-To have an overview of CellDestiny functionalities, check out User Manual directory. You'll find all possible QC, analysis and graphs that CellDestiny proposes.
+## USER MANUAL
 
-For package users
-Read package/ subdirectory pdf files or re-run Rmd files to practice.
+To have an overview of CellDestiny functionalities, check out [User Manual](https://github.com/TeamPerie/CellDestiny/tree/main/UserManual) directory. You'll find all possible QC, analysis and graphs that CellDestiny proposes. 
 
-For app users
-Read app/ subdirectory pdf file.
+1) For package users
 
-To play with the web app "test dataset", click on the link to open the web application.
+Read [package/ subdirectory](https://github.com/TeamPerie/CellDestiny/tree/main/UserManual/package) pdf files or re-run Rmd files to practice.
 
-In it, you see on the left a menu with the two parts: QC and Analysis. Both of them have their respective "Load data" sub-parts where you can load your matrix and metadata files.
+2) For app users
 
+Read [app/ subdirectory](https://github.com/TeamPerie/CellDestiny/tree/main/UserManual/app) pdf file.
 
+To play with the web app "test dataset", click on the [link](https://perie-team.shinyapps.io/CellDestiny/) to open the web application. 
 
+In it, you see on the left a menu with the two parts: QC and Analysis. Both of them have their respective "Load data" sub-parts where you can load your matrix and metadata files. 
+
+---
+<p align="center" width="100%">
+    <img src="https://github.com/TeamPerie/CellDestiny/blob/main/images/Load_data.png">
+</p>
 ---
 
 
