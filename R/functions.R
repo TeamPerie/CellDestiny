@@ -665,10 +665,12 @@ PlotCumulativeDiagram <- function(matrix, indivVar, colorVar="", xProp="no", tex
         scale_x_continuous(labels = percent)
     }
   }else if(colorVar!="" &&  colorVar!=indivVar){
+    nbColors=length(unique(matrix$variable))
+    mycolors=colorRampPalette(brewer.pal(8, "Set2"))(nbColors)
     if(xProp=="no"){
       p<-ggplot(matrix, aes(y=cumsum, x=rank)) +
         geom_line(aes(colour=variable), alpha=0.7,size=2) +
-        scale_color_brewer(palette ="Set2") +
+        scale_fill_manual(values = mycolors) +
         theme_classic()+
         xlab("Ranked number of clones (decreasing order)") +
         ylab("Cumulative clone size (%)") +
@@ -677,7 +679,7 @@ PlotCumulativeDiagram <- function(matrix, indivVar, colorVar="", xProp="no", tex
     }else{
       p<-ggplot(matrix, aes(y=cumsum, x=percent)) +
         geom_line(aes(colour=variable), alpha=0.7,size=2) +
-        scale_color_brewer(palette ="Set2") +
+        scale_fill_manual(values = mycolors) +
         theme_classic()+
         xlab("Ranked number of clones (decreasing order)") +
         ylab("Cumulative clone size (%)") +
@@ -694,11 +696,11 @@ PlotCumulativeDiagram <- function(matrix, indivVar, colorVar="", xProp="no", tex
         ylab("Cumulative clone size (%)") +
         theme(text = element_text(size = textSize)) +
         labs(color = colorVar)+
-        scale_color_brewer(palette = "Set2")
+        scale_fill_manual(values = mycolors)
     }else{
       p<-ggplot(matrix, aes(y=cumsum, x=percent)) +
         geom_line(aes_string(color=colorVar), alpha=0.7,size=2) +
-        scale_color_brewer(palette ="Set2") +
+        scale_fill_manual(values = mycolors) +
         theme_classic()+
         xlab("Ranked number of clones (decreasing order)") +
         ylab("Cumulative clone size (%)") +
@@ -709,7 +711,6 @@ PlotCumulativeDiagram <- function(matrix, indivVar, colorVar="", xProp="no", tex
   }
   return(p)
 }
-
 ## ok
 ## nom changé
 
@@ -752,16 +753,21 @@ PlotBarcodeFrequencies<- function(subLgMatrix, colorVar="", y="density", nbins=5
   breaks <- pretty(range(subLgMatrix$counts),
                    n = nclass.Sturges(subLgMatrix$counts),
                    min.n = 0)
+
+  nbColors<-length(unique(subLgMatrix[,which(colnames(subLgMatrix)==colorVar)]))
+  mycolors<-colorRampPalette(brewer.pal(8, "Set2"))(nbColors)
+
   if(y=="Density curve"){
     y="density"
   }
+
   if(colorVar!=""){
     freq_plot<-ggplot(subLgMatrix, aes_string(x="counts", fill=colorVar)) +
       xlab("Barcode abundances") +
       labs(color=colorVar) +
       theme_classic() +
       scale_x_continuous(breaks = breaks)+
-      scale_fill_brewer(palette="Set2")+
+      scale_fill_manual(values = mycolors)+
       theme(axis.text.x = element_text(angle = 45, hjust=1), text = element_text(size = textSize))
   }else{
     freq_plot<-ggplot(subLgMatrix, aes(x=counts)) +
@@ -791,7 +797,8 @@ PlotBarcodeFrequencies<- function(subLgMatrix, colorVar="", y="density", nbins=5
 
   return(freq_plot)
 }
-# ok
+
+
 ## nom changé
 
 #' Plot a correlogram
