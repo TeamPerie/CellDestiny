@@ -38,7 +38,6 @@ server_myApp<-function(input, output, session) {
   rep_matrix <- reactive({
     if(input$QC_testdataLoder=="Yes"){
       tab=read.csv("testData/LentiviralBarcodingData/QC_data/QC_duplicate_matrix_Mouse_Lung_cDCs.csv.gz", check.names = FALSE)
-
     }else{
       req(input$replicats_matrix)
       # Check file extension
@@ -141,14 +140,10 @@ server_myApp<-function(input, output, session) {
 
   dupMatrix<-reactive({
     if(length(input$valRep)>0 && input$replicats_var!=""){
-      print("in")
-      print(input$correlDup)
       qc_mat<-ReformatQCmatrix(rep_matrix(), rep_metadata(), input$replicats_var, dup_val(),
                                transformation = input$QCtransformation,
                                correlation = input$correlDup)
-      print(qc_mat)
       dup_mat<-MakeDuplicatesMatrix(qc_mat, input$varRep,input$valRep, rep_metadata())
-      print(dup_mat)
       dup_mat
     }
   })
@@ -202,7 +197,7 @@ server_myApp<-function(input, output, session) {
         dup_val<-dup_val()
         if(length(unique(filtred_matrix$Sample_names))<4){ # if less than 2 rows to fill, bug with facet_wrap_paginate
           output[[plotname]]<-renderPlot({
-           ggplot(filtred_matrix, aes(x=trans_dup1, y=trans_dup2))+
+            p<-ggplot(filtred_matrix, aes(x=trans_dup1, y=trans_dup2))+
               facet_wrap_paginate(~Sample_names, page=my_i) +
               geom_point(size=2.5, alpha=0.8, color="#7fdbbe") +
               theme_bw() +
@@ -211,12 +206,14 @@ server_myApp<-function(input, output, session) {
               theme(strip.text.x = element_text(face = "bold", size= 15)) + # Change
               xlab(paste0("Barcode abundances : ", dup_val[1], " (", input$QCtransformation , ")")) +
               ylab(paste0("Barcode abundances : ", dup_val[2], " (", input$QCtransformation , ")"))
-
+            grob <- grobTree(textGrob(paste0(input$correlDup, ":\npval=",round(filtred_matrix$cor, 2)), x=0.05,  y=0.85, hjust=0))
+            p <- p + annotation_custom(grob)
+            p
           })
 
         }else{
           output[[plotname]]<-renderPlot({
-            ggplot(filtred_matrix, aes(x=trans_dup1, y=trans_dup2))  +
+            p<-ggplot(filtred_matrix, aes(x=trans_dup1, y=trans_dup2))  +
               geom_point(size=2.5, alpha=0.8, color="#7fdbbe") +
               facet_wrap_paginate(~Sample_names, ncol=2, nrow=3,page=my_i) +
               theme_bw() +
@@ -225,7 +222,9 @@ server_myApp<-function(input, output, session) {
               theme(strip.text.x = element_text(face = "bold", size= 15)) + # Change
               xlab(paste0("Barcode abundances : ", dup_val[1], " (", input$QCtransformation , ")")) +
               ylab(paste0("Barcode abundances : ", dup_val[2], " (", input$QCtransformation , ")"))
-
+            grob <- grobTree(textGrob(paste0(input$correlDup, ":\npval=",round(filtred_matrix$cor, 2)), x=0.05,  y=0.85, hjust=0))
+            p <- p + annotation_custom(grob)
+            p
           })
         }
       }) # end of local
@@ -323,16 +322,16 @@ server_myApp<-function(input, output, session) {
     metRU<-rep_metadata()
     dupVarRu<-input$replicats_var
     if(input$indiv_varRU!="" && length(input$indiv_valRU)>=2){
-      qc_matRU<-ReformatQCmatrix(matxRu, metRU, dupVar = dupVarRu , dup_valRU(),transformation = input$QCtransformation, input$correlDup)
+      qc_matRU<-ReformatQCmatrix(matxRu, metRU, dupVar = dupVarRu , dup_valRU(),
+                                 transformation = input$QCtransformation,
+                                 correlation = input$correlDup)
       ru_mat<-MakeRepeatUseMatrix(qc_matRU, input$indiv_varRU, input$indiv_valRU)
       ru_mat
     }
   })
 
   indiv_com<-reactive({
-    print(repeatUseMatrix())
     indiv_com<-combn(colnames(repeatUseMatrix()[,-1]), 2, FUN = NULL)
-    print(indiv_com)
     indiv_com
   })
 
@@ -758,7 +757,6 @@ server_myApp<-function(input, output, session) {
                                listVal=input$valueCS)
         sub_lgMtx<-WideToLong(sub_matx, metadata())
         sub_lgMtx<-sub_lgMtx[which(sub_lgMtx$counts>0),]
-        print(sub_lgMtx)
         sub_lgMtx
       }
     })
@@ -1280,7 +1278,6 @@ server_myApp<-function(input, output, session) {
     }})
 
     observe({ if (length(input$catVal)>0 && length(input$organismCat)>0){
-      print(length(input$catVal))
         output$bargraphCat_counts<-renderPlot({
           validate(
             need(length(input$catVal)>1, "Select at least two values to be compared.")

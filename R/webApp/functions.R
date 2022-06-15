@@ -280,7 +280,7 @@ NormByBcAbundance<-function(matrix, nbVal){
 #' @param dupVal, duplicate values
 #' @param sampleNameFieldsep, sample name variable separatorn default "_"
 #' @param transformation, transformation to use, default is "arcsin". Other "log10(x+1)" or "none"
-#' @param correlation, correlation, "spearman" (default) or "pearson"
+#' @param correlation, correlation method to use, "spearman" (default) or "pearson"
 #'
 #' @return a long format QC matrix
 #'
