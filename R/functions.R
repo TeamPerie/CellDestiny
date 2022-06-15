@@ -688,6 +688,8 @@ PlotCumulativeDiagram <- function(matrix, indivVar, colorVar="", xProp="no", tex
         scale_x_continuous(labels = percent)
     }
   }else{
+    nbColors=length(unique(matrix$variable))
+    mycolors=colorRampPalette(brewer.pal(8, "Set2"))(nbColors)
     if(xProp=="no"){
       p<-ggplot(matrix, aes(y=cumsum, x=rank)) +
         geom_line(aes_string(color=colorVar), alpha=0.7,size=2)+
