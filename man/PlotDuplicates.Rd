@@ -4,7 +4,13 @@
 \alias{PlotDuplicates}
 \title{Plot Duplicates}
 \usage{
-PlotDuplicates(matrix, dupVal, transformation = "arcsin", textSize = 15)
+PlotDuplicates(
+  matrix,
+  dupVal,
+  transformation = "arcsin",
+  textSize = 15,
+  correlation = "spearman"
+)
 }
 \arguments{
 \item{matrix, }{a made by 1)ReformatQCmatrix --> 2) MakeDuplicatesMatrix functions}
@@ -13,7 +19,9 @@ PlotDuplicates(matrix, dupVal, transformation = "arcsin", textSize = 15)
 
 \item{transformation, }{transformation name, default is "arcsin". Other "log10(x+1)" or "none". It has to be the same as used for ReformatQCmatrix function}
 
-\item{textSize, }{size of text, fault is 15}
+\item{textSize, }{size of text, default is 15}
+
+\item{correlation, }{the correlation used in ReformatQCmatrix() function. "spearman" (default) or "pearson"}
 }
 \value{
 a Duplicates matrix

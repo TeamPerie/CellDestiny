@@ -352,21 +352,25 @@ MakeDuplicatesMatrix<-function(matrix, listVar, listVal, metadata){
 #' @param matrix, a made by 1)ReformatQCmatrix --> 2) MakeDuplicatesMatrix functions
 #' @param dupVal, duplicate value names as a list
 #' @param transformation, transformation name, default is "arcsin". Other "log10(x+1)" or "none". It has to be the same as used for ReformatQCmatrix function
-#' @param textSize, size of text, fault is 15
+#' @param textSize, size of text, default is 15
+#' @param correlation, the correlation used in ReformatQCmatrix() function. "spearman" (default) or "pearson"
 #'
 #' @return a Duplicates matrix
 #'
 #' @export
-PlotDuplicates<-function(matrix, dupVal, transformation="arcsin", textSize=15){
+PlotDuplicates<-function(matrix, dupVal, transformation="arcsin", textSize=15, correlation ="spearman"){
   p<-ggplot(matrix, aes(x=trans_dup1, y=trans_dup2))  +
     geom_point(size=2.5, alpha=0.8, color="#7fdbbe") +
-    facet_wrap(~paste(round(cor,2), Sample_names, sep = ": ")) +
+    facet_wrap(facets = ~Sample_names) +
     theme_bw() +
     theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ # add right box border
     theme(text = element_text(size = textSize))  + # Change font size
     theme(strip.text.x = element_text(face = "bold", size= textSize)) + # Change
     xlab(paste0("Barcode abundances : ", dupVal[1], " (", transformation , ")")) +
     ylab(paste0("Barcode abundances : ", dupVal[2], " (", transformation , ")"))
+
+  grob <- grobTree(textGrob(paste0(correlation, ":\npval=",round(matrix$cor, 2)), x=0.05,  y=0.85, hjust=0))
+  p<-p + annotation_custom(grob)
   return(p)
 }
 

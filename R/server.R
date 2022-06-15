@@ -197,7 +197,7 @@ server_myApp<-function(input, output, session) {
         if(length(unique(filtred_matrix$Sample_names))<4){ # if less than 2 rows to fill, bug with facet_wrap_paginate
           output[[plotname]]<-renderPlot({
             ggplot(filtred_matrix, aes(x=trans_dup1, y=trans_dup2))+
-              facet_wrap_paginate(~paste(cor, Sample_names, sep = ": "), page=my_i) +
+              facet_wrap_paginate(~Sample_names, page=my_i) +
               geom_point(size=2.5, alpha=0.8, color="#7fdbbe") +
               theme_bw() +
               theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ # add right box border
@@ -205,20 +205,24 @@ server_myApp<-function(input, output, session) {
               theme(strip.text.x = element_text(face = "bold", size= 15)) + # Change
               xlab(paste0("Barcode abundances : ", dup_val[1], " (", input$QCtransformation , ")")) +
               ylab(paste0("Barcode abundances : ", dup_val[2], " (", input$QCtransformation , ")"))
-          })
 
+            p
+          })
 
         }else{
           output[[plotname]]<-renderPlot({
-            ggplot(filtred_matrix, aes(x=trans_dup1, y=trans_dup2))  +
+            p<-ggplot(filtred_matrix, aes(x=trans_dup1, y=trans_dup2))  +
               geom_point(size=2.5, alpha=0.8, color="#7fdbbe") +
-              facet_wrap_paginate(~paste(cor, Sample_names, sep = ": "), ncol=2, nrow=3,page=my_i) +
+              facet_wrap_paginate(~Sample_names, ncol=2, nrow=3,page=my_i) +
               theme_bw() +
               theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+ # add right box border
               theme(text = element_text(size = 15))  + # Change font size
               theme(strip.text.x = element_text(face = "bold", size= 15)) + # Change
               xlab(paste0("Barcode abundances : ", dup_val[1], " (", input$QCtransformation , ")")) +
               ylab(paste0("Barcode abundances : ", dup_val[2], " (", input$QCtransformation , ")"))
+            grob <- grobTree(textGrob(paste0(input$correlDup, ":\npval=",round(filtred_matrix$cor, 2)), x=0.05,  y=0.85, hjust=0))
+            p <- p + annotation_custom(grob)
+            p
           })
         }
       }) # end of local
