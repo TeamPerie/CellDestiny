@@ -722,8 +722,6 @@ PlotCumulativeDiagram <- function(matrix, indivVar, colorVar="", xProp="no", tex
   return(p)
 }
 ## ok
-## nom changé
-
 
 #' Plot cumulative diagram
 #'
