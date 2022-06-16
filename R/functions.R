@@ -665,7 +665,7 @@ PlotCumulativeDiagram <- function(matrix, indivVar, colorVar="", xProp="no", tex
         scale_x_continuous(labels = percent)
     }
   }else if(colorVar!="" &&  colorVar!=indivVar){ #color is not indiv
-    nbColors=length(unique(matrix[,which(colnames(matrix)=="variable")]))
+    nbColors=nrow(unique(matrix[,which(colnames(matrix)=="variable")]))
     if(nbColors<=8){
       mycolors=colorRampPalette(brewer.pal(8, "Set2"))(8)
     }else{
@@ -692,14 +692,12 @@ PlotCumulativeDiagram <- function(matrix, indivVar, colorVar="", xProp="no", tex
         scale_x_continuous(labels = percent)
     }
   }else{ #color is indiv
-    nbColors=length(unique(matrix[,which(colnames(matrix)==colorVar)]))
-    print(nbColors)
+    nbColors=nrow(unique(matrix[,which(colnames(matrix)==colorVar)]))
     if(nbColors<=8){
       mycolors=colorRampPalette(brewer.pal(8, "Set2"))(8)
     }else{
       mycolors=colorRampPalette(brewer.pal(8, "Set2"))(nbColors)
     }
-    print(mycolors)
     if(xProp=="no"){
       p<-ggplot(matrix, aes(y=cumsum, x=rank)) +
         geom_line(aes_string(color=colorVar), alpha=0.7,size=2)+
