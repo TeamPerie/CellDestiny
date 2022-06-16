@@ -817,17 +817,17 @@ server_myApp<-function(input, output, session) {
             need(answers_CS()==length(input$variableCS), "Please, select at least one value per variable")
           )
           ## end test
-          print(PlotBarcodeFrequencies(sub_lgMtx(),input$colorCS,input$yCS, input$nbins))
+          print(PlotBarcodeFrequencies(sub_lgMtx(),input$colorCS,input$yCS, input$nbins, log=input$xProportion))
         })
         ## Export
-        nonCumHistImage <- reactive({ PlotBarcodeFrequencies(sub_lgMtx(),input$colorCS, input$yCS,input$nbins) })
+        nonCumHistImage <- reactive({ PlotBarcodeFrequencies(sub_lgMtx(),input$colorCS, input$yCS,input$nbins, log=input$xProportion) })
         output$downloadImage_nonCumHist <- downloadHandler(filename = function() {paste0(input$graphType2, ".png")},
-                                                        content = function(fname){
-                                                          ggsave(fname, plot = nonCumHistImage(), device = "png")
-                                                        }
+                                                           content = function(fname){
+                                                             ggsave(fname, plot = nonCumHistImage(), device = "png")
+                                                           }
         )
         output$downloadTable_nonCumHist <- downloadHandler(filename = function() {paste0(input$graphType2, ".csv")},
-                                                        content = function(fname){ write.csv(sub_lgMtx(), fname)}
+                                                           content = function(fname){ write.csv(sub_lgMtx(), fname)}
         )
       } else {
       }

@@ -664,14 +664,18 @@ PlotCumulativeDiagram <- function(matrix, indivVar, colorVar="", xProp="no", tex
         theme(text = element_text(size = textSize))+
         scale_x_continuous(labels = percent)
     }
-  }else if(colorVar!="" &&  colorVar!=indivVar){
-    nbColors=length(unique(matrix$variable))
-    mycolors=colorRampPalette(brewer.pal(8, "Set2"))(nbColors)
+  }else if(colorVar!="" &&  colorVar!=indivVar){ #color is not indiv
+    nbColors=length(unique(matrix[,which(colnames(matrix)=="variable")]))
+    if(nbColors<=8){
+      mycolors=colorRampPalette(brewer.pal(8, "Set2"))(8)
+    }else{
+      mycolors=colorRampPalette(brewer.pal(8, "Set2"))(nbColors)
+    }
     if(xProp=="no"){
       p<-ggplot(matrix, aes(y=cumsum, x=rank)) +
         geom_line(aes(colour=variable), alpha=0.7,size=2) +
-        scale_fill_manual(values = mycolors) +
         theme_classic()+
+        scale_color_manual(values = mycolors) +
         xlab("Ranked number of clones (decreasing order)") +
         ylab("Cumulative clone size (%)") +
         theme(text = element_text(size = textSize))+
@@ -679,7 +683,7 @@ PlotCumulativeDiagram <- function(matrix, indivVar, colorVar="", xProp="no", tex
     }else{
       p<-ggplot(matrix, aes(y=cumsum, x=percent)) +
         geom_line(aes(colour=variable), alpha=0.7,size=2) +
-        scale_fill_manual(values = mycolors) +
+        scale_color_manual(values = mycolors) +
         theme_classic()+
         xlab("Ranked number of clones (decreasing order)") +
         ylab("Cumulative clone size (%)") +
@@ -687,7 +691,13 @@ PlotCumulativeDiagram <- function(matrix, indivVar, colorVar="", xProp="no", tex
         labs(color = colorVar) +
         scale_x_continuous(labels = percent)
     }
-  }else{
+  }else{ #color is indiv
+    nbColors=length(unique(matrix[,which(colnames(matrix)==colorVar)]))
+    if(nbColors<=8){
+      mycolors=colorRampPalette(brewer.pal(8, "Set2"))(8)
+    }else{
+      mycolors=colorRampPalette(brewer.pal(8, "Set2"))(nbColors)
+    }
     if(xProp=="no"){
       p<-ggplot(matrix, aes(y=cumsum, x=rank)) +
         geom_line(aes_string(color=colorVar), alpha=0.7,size=2)+
@@ -696,11 +706,11 @@ PlotCumulativeDiagram <- function(matrix, indivVar, colorVar="", xProp="no", tex
         ylab("Cumulative clone size (%)") +
         theme(text = element_text(size = textSize)) +
         labs(color = colorVar)+
-        scale_fill_manual(values = mycolors)
+        scale_color_manual(values = c(mycolors))
     }else{
       p<-ggplot(matrix, aes(y=cumsum, x=percent)) +
         geom_line(aes_string(color=colorVar), alpha=0.7,size=2) +
-        scale_fill_manual(values = mycolors) +
+        scale_color_manual(values = mycolors) +
         theme_classic()+
         xlab("Ranked number of clones (decreasing order)") +
         ylab("Cumulative clone size (%)") +
@@ -711,7 +721,6 @@ PlotCumulativeDiagram <- function(matrix, indivVar, colorVar="", xProp="no", tex
   }
   return(p)
 }
-
 ## ok
 ## nom changé
 
@@ -756,7 +765,11 @@ PlotBarcodeFrequencies<- function(subLgMatrix, colorVar="", y="density", nbins=5
                    min.n = 0)
 
   nbColors<-length(unique(subLgMatrix[,which(colnames(subLgMatrix)==colorVar)]))
-  mycolors<-colorRampPalette(brewer.pal(8, "Set2"))(nbColors)
+  if(nbColors<8){
+    mycolors=colorRampPalette(brewer.pal(8, "Set2"))(8)
+  }else{
+    mycolors=colorRampPalette(brewer.pal(8, "Set2"))(nbColors)
+  }
 
   if(y=="Density curve"){
     y="density"
@@ -798,6 +811,7 @@ PlotBarcodeFrequencies<- function(subLgMatrix, colorVar="", y="density", nbins=5
 
   return(freq_plot)
 }
+
 # ok
 ## nom changé
 
