@@ -280,12 +280,12 @@ NormByBcAbundance<-function(matrix, nbVal){
 #' @param dupVal, duplicate values
 #' @param sampleNameFieldsep, sample name variable separatorn default "_"
 #' @param transformation, transformation to use, default is "arcsin". Other "log10(x+1)" or "none"
-#' @param correlation, correlation method to use, "spearman" (default) or "pearson"
+#' @param correlation, correlation method to use, "spearman" or "pearson" (default)
 #'
 #' @return a long format QC matrix
 #'
 #' @export
-ReformatQCmatrix<-function(matrix, metadata, dupVar, dupVal, sampleNameFieldsep="_", transformation="arcsin", correlation="spearman"){
+ReformatQCmatrix<-function(matrix, metadata, dupVar, dupVal, sampleNameFieldsep="_", transformation="arcsin", correlation="pearson"){
   # user selection
   qc_matrix<-WideToLong(matrix, metadata)
   # reformat to have one column per duplicate
@@ -353,12 +353,12 @@ MakeDuplicatesMatrix<-function(matrix, listVar, listVal, metadata){
 #' @param dupVal, duplicate value names as a list
 #' @param transformation, transformation name, default is "arcsin". Other "log10(x+1)" or "none". It has to be the same as used for ReformatQCmatrix function
 #' @param textSize, size of text, default is 15
-#' @param correlation, the correlation used in ReformatQCmatrix() function. "spearman" (default) or "pearson"
+#' @param correlation, the correlation used in ReformatQCmatrix() function. "spearman" or "pearson" (default)
 #'
 #' @return a Duplicates matrix
 #'
 #' @export
-PlotDuplicates<-function(matrix, dupVal, transformation="arcsin", textSize=15, correlation ="spearman"){
+PlotDuplicates<-function(matrix, dupVal, transformation="arcsin", textSize=15, correlation ="pearson"){
   p<-ggplot(matrix, aes(x=trans_dup1, y=trans_dup2))  +
     geom_point(size=2.5, alpha=0.8, color="#7fdbbe") +
     facet_wrap(facets = ~Sample_names) +
@@ -450,10 +450,9 @@ MakeHeatmapMatrix <- function(matrix, metadata, indivVar, indivVal="", listVar, 
   matx<-WideToLong(matrix, metadata)
   matx<-matx[which(matx$counts>0),]
   if(poolIndiv==FALSE){
+    barcodesVar<-"Barcodes"
     # select values & individuales
     selected_var<-LongSubMatrix(matx, indivVar, indivVal, listVar, listVal, metadata)
-    #selected_var<-selected_var[selected_var[,indivVar] %in% indivVal, ]
-    barcodesVar<-"Barcodes"
     # collapse values to create new sample names with wanted values
     if(length(listVar)>1){
       selected_var$samples <- apply(selected_var[,listVar] , 1 , paste , collapse = "_" )
@@ -464,8 +463,9 @@ MakeHeatmapMatrix <- function(matrix, metadata, indivVar, indivVal="", listVar, 
   }else{ # if pool
     barcodesVar<-"Bc_Ind"
     # select only values, as individuals are pooled
-    selected_var<-matx
-    selected_var$Bc_Ind<-apply(select(matx, c("Barcodes", indivVar)) , 1, function(x) paste0(x, collapse = "_" ))
+    allInd<-metadata[,which(colnames(metadata)==indivVar)]
+    selected_var<-LongSubMatrix(matx, indivVar, allInd, listVar, listVal, metadata)
+    selected_var$Bc_Ind<-apply(select(selected_var, c("Barcodes", indivVar)) , 1, function(x) paste0(x, collapse = "_" ))
     if(length(listVar)>1){
       # paste barcode and individual name to create pool
       selected_var$samples <- apply(selected_var[,listVar] , 1 , paste , collapse = "_" )
@@ -671,7 +671,7 @@ PlotCumulativeDiagram <- function(matrix, indivVar, colorVar="", xProp="no", tex
         scale_x_continuous(labels = percent)
     }
   }else if(colorVar!="" &&  colorVar!=indivVar){ #color is not indiv
-    nbColors=nrow(unique(matrix[,which(colnames(matrix)=="variable")]))
+    nbColors=nrow(data.frame(unique(matrix[,which(colnames(matrix)=="variable")])))
     if(nbColors<=8){
       mycolors=colorRampPalette(brewer.pal(8, "Set2"))(8)
     }else{
@@ -698,7 +698,7 @@ PlotCumulativeDiagram <- function(matrix, indivVar, colorVar="", xProp="no", tex
         scale_x_continuous(labels = percent)
     }
   }else{ #color is indiv
-    nbColors=nrow(unique(matrix[,which(colnames(matrix)==colorVar)]))
+    nbColors=nrow(data.frame(unique(matrix[,which(colnames(matrix)==colorVar)])))
     if(nbColors<=8){
       mycolors=colorRampPalette(brewer.pal(8, "Set2"))(8)
     }else{

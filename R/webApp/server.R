@@ -1062,7 +1062,7 @@ server_myApp<-function(input, output, session) {
                                                           content = function(fname){ write.csv(abundance_matx_dotplot(), fname)})
 
           # piechart
-          piechartImage<- reactive({ PlotPieChart(piechart_mat(),input$organism, input$colorSB ) })
+          piechartImage<- reactive({ PlotPieChart(piechart_mat()) })
           output$downloadImage_piechart <- downloadHandler(filename = function() {paste0("piechart_", input$x_val, "VS", input$y_val,".png")},
                                                           content = function(fname){ggsave(fname, plot = piechartImage(), device = "png")})
 

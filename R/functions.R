@@ -673,7 +673,7 @@ PlotCumulativeDiagram <- function(matrix, indivVar, colorVar="", xProp="no", tex
         scale_x_continuous(labels = percent)
     }
   }else if(colorVar!="" &&  colorVar!=indivVar){ #color is not indiv
-    nbColors=length(unique(matrix[,which(colnames(matrix)=="variable")]))
+    nbColors=nrow(data.frame(unique(matrix[,which(colnames(matrix)=="variable")])))
     if(nbColors<=8){
       mycolors=colorRampPalette(brewer.pal(8, "Set2"))(8)
     }else{
@@ -700,7 +700,7 @@ PlotCumulativeDiagram <- function(matrix, indivVar, colorVar="", xProp="no", tex
         scale_x_continuous(labels = percent)
     }
   }else{ #color is indiv
-    nbColors=length(unique(matrix[,which(colnames(matrix)==colorVar)]))
+    nbColors=nrow(data.frame(unique(matrix[,which(colnames(matrix)==colorVar)])))
     if(nbColors<=8){
       mycolors=colorRampPalette(brewer.pal(8, "Set2"))(8)
     }else{
