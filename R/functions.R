@@ -375,7 +375,7 @@ PlotDuplicates<-function(matrix, dupVal, transformation="arcsin", textSize=15, c
 
   f_labels$var<-paste0(correlation, ":\npval=", f_labels$cor)
 
-  p <- p + geom_text(mapping = aes(x = -Inf, y = Inf, label = var),
+  p <- p + geom_text(mapping = aes_string(x = -Inf, y = Inf, label = "var"),
                      hjust   = -0.1,
                      vjust   =  1,
                      data = f_labels)
