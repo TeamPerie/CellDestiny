@@ -280,12 +280,12 @@ NormByBcAbundance<-function(matrix, nbVal){
 #' @param dupVal, duplicate values
 #' @param sampleNameFieldsep, sample name variable separatorn default "_"
 #' @param transformation, transformation to use, default is "arcsin". Other "log10(x+1)" or "none"
-#' @param correlation, correlation method to use, "spearman" (default) or "pearson"
+#' @param correlation, correlation method to use, "pearson" (default) or "spearman"
 #'
 #' @return a long format QC matrix
 #'
 #' @export
-ReformatQCmatrix<-function(matrix, metadata, dupVar, dupVal, sampleNameFieldsep="_", transformation="arcsin", correlation="spearman"){
+ReformatQCmatrix<-function(matrix, metadata, dupVar, dupVal, sampleNameFieldsep="_", transformation="arcsin", correlation="pearson"){
   # user selection
   qc_matrix<-WideToLong(matrix, metadata)
   # reformat to have one column per duplicate
@@ -297,10 +297,10 @@ ReformatQCmatrix<-function(matrix, metadata, dupVar, dupVal, sampleNameFieldsep=
   names(qc_matrix) <- sub('^X', '', names(qc_matrix))
   qc_matrix$total_read<-apply(qc_matrix[,c(ncol(qc_matrix)-1, ncol(qc_matrix))], 1, sum)
   qc_matrix<-cbind(qc_matrix, setNames(ldply(strsplit(as.character(qc_matrix$Sample_names), "_"), identity), colnames(col)) )
-  # add spearman correlation + pval informations
+  # add pearson correlation + pval informations
   cor_samples_ab <- qc_matrix %>%
     group_by(Sample_names) %>%
-    mutate(cor=trunc(cor(get(dupVal[1]), get(dupVal[2]), use="na", method = correlation)*10^2)/10^2) %>%
+    dplyr::mutate(cor=trunc(cor(get(dupVal[1]), get(dupVal[2]), use="na", method = correlation)*10^2)/10^2) %>%
     select(c(Sample_names, cor))
   qc_matrix<-merge(qc_matrix, data.frame(cor_samples_ab), by="Sample_names")
   if(transformation=="arcsin"){
@@ -353,12 +353,12 @@ MakeDuplicatesMatrix<-function(matrix, listVar, listVal, metadata){
 #' @param dupVal, duplicate value names as a list
 #' @param transformation, transformation name, default is "arcsin". Other "log10(x+1)" or "none". It has to be the same as used for ReformatQCmatrix function
 #' @param textSize, size of text, default is 15
-#' @param correlation, the correlation used in ReformatQCmatrix() function. "spearman" (default) or "pearson"
+#' @param correlation, the correlation used in ReformatQCmatrix() function. "pearson" (default) or "spearman"
 #'
 #' @return a Duplicates matrix
 #'
 #' @export
-PlotDuplicates<-function(matrix, dupVal, transformation="arcsin", textSize=15, correlation ="spearman"){
+PlotDuplicates<-function(matrix, dupVal, transformation="arcsin", textSize=15, correlation ="pearson"){
   p<-ggplot(matrix, aes(x=trans_dup1, y=trans_dup2))  +
     geom_point(size=2.5, alpha=0.8, color="#7fdbbe") +
     facet_wrap(facets = ~Sample_names) +
@@ -444,10 +444,9 @@ MakeHeatmapMatrix <- function(matrix, metadata, indivVar, indivVal="", listVar, 
   matx<-WideToLong(matrix, metadata)
   matx<-matx[which(matx$counts>0),]
   if(poolIndiv==FALSE){
+    barcodesVar<-"Barcodes"
     # select values & individuales
     selected_var<-LongSubMatrix(matx, indivVar, indivVal, listVar, listVal, metadata)
-    #selected_var<-selected_var[selected_var[,indivVar] %in% indivVal, ]
-    barcodesVar<-"Barcodes"
     # collapse values to create new sample names with wanted values
     if(length(listVar)>1){
       selected_var$samples <- apply(selected_var[,listVar] , 1 , paste , collapse = "_" )
@@ -458,8 +457,9 @@ MakeHeatmapMatrix <- function(matrix, metadata, indivVar, indivVal="", listVar, 
   }else{ # if pool
     barcodesVar<-"Bc_Ind"
     # select only values, as individuals are pooled
-    selected_var<-matx
-    selected_var$Bc_Ind<-apply(select(matx, c("Barcodes", indivVar)) , 1, function(x) paste0(x, collapse = "_" ))
+    allInd<-metadata[,which(colnames(metadata)==indivVar)]
+    selected_var<-LongSubMatrix(matx, indivVar, allInd, listVar, listVal, metadata)
+    selected_var$Bc_Ind<-apply(select(selected_var, c("Barcodes", indivVar)) , 1, function(x) paste0(x, collapse = "_" ))
     if(length(listVar)>1){
       # paste barcode and individual name to create pool
       selected_var$samples <- apply(selected_var[,listVar] , 1 , paste , collapse = "_" )
@@ -571,8 +571,8 @@ MakeCumulativeDiagramMatrix <- function(matrix, metadata, indivVar, indivVal, va
     new<-rbind(new, c(0,0))
     if(xProp=="yes"){
       new<-new %>%
-        mutate(cumrank=cumsum(rank)) %>%
-        mutate(percent=cumrank/sum(rank))
+        dplyr::mutate(cumrank=cumsum(rank)) %>%
+        dplyr::mutate(percent=cumrank/sum(rank))
       # set 0 to 0 ranked values
       new[which(new$rank==0),c(ncol(new)-1, ncol(new))]<-0
     }
@@ -820,7 +820,7 @@ PlotBarcodeFrequencies<- function(subLgMatrix, colorVar="", y="density", nbins=5
 #' @return a correlogram
 #'
 #' @export
-PlotCorrelogram<-function(matrix, correlation="spearman"){
+PlotCorrelogram<-function(matrix, correlation="pearson"){
   corr_matx<-cor(matrix, method = correlation)
   corr<-corrplot(corr_matx,
                  col=brewer.pal(7,"GnBu"),
@@ -1501,7 +1501,7 @@ CalculDiversity<-function(matrix, metadata, indivVar, indivVal, listVar, listVal
 #'
 #' @export
 PlotDiversity <- function(matrix, diversity, listVar, indivVar, colorVar="", dots="no", labels="no", textSize=15){
-  mycolors <- colorRampPalette(brewer.pal(8, "Set2"))(20)
+  mycolors <- colorRampPalette(brewer.pal(8, "Set2"))(13)
   # If diversity in y :
   #}else{
   nb_var<-length(listVar)
@@ -1510,8 +1510,8 @@ PlotDiversity <- function(matrix, diversity, listVar, indivVar, colorVar="", dot
   if(nb_var>1 && colorVar==""){
     ncol_div<-which(colnames(matrix)==diversity)
     varName=paste(listVar, collapse= "_")
-    boxplot<-ggplot(matrix, aes_string(x=varName, y=as.name(diversity), fill=varName)) +
-      geom_boxplot(color="black") +
+    boxplot<-ggplot(matrix, aes_string(x=varName, y=as.name(diversity), fill=varName, color="black")) +
+      #geom_boxplot(color="black") +
       theme_classic()+
       scale_fill_manual(values = brewer.pal(8,name = "Set2")) +
       theme(legend.position = 'none')
