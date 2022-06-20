@@ -9,7 +9,7 @@ PlotDuplicates(
   dupVal,
   transformation = "arcsin",
   textSize = 15,
-  correlation = "spearman"
+  correlation = "pearson"
 )
 }
 \arguments{
@@ -21,7 +21,7 @@ PlotDuplicates(
 
 \item{textSize, }{size of text, default is 15}
 
-\item{correlation, }{the correlation used in ReformatQCmatrix() function. "spearman" (default) or "pearson"}
+\item{correlation, }{the correlation used in ReformatQCmatrix() function. "pearson" (default) or "spearman"}
 }
 \value{
 a Duplicates matrix

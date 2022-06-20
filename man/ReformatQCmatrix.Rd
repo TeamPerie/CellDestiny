@@ -11,7 +11,7 @@ ReformatQCmatrix(
   dupVal,
   sampleNameFieldsep = "_",
   transformation = "arcsin",
-  correlation = "spearman"
+  correlation = "pearson"
 )
 }
 \arguments{
@@ -27,7 +27,7 @@ ReformatQCmatrix(
 
 \item{transformation, }{transformation to use, default is "arcsin". Other "log10(x+1)" or "none"}
 
-\item{correlation, }{correlation method to use, "spearman" (default) or "pearson"}
+\item{correlation, }{correlation method to use, "pearson" (default) or "spearman"}
 }
 \value{
 a long format QC matrix

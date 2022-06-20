@@ -4,7 +4,7 @@
 \alias{PlotCorrelogram}
 \title{Plot a correlogram}
 \usage{
-PlotCorrelogram(matrix, correlation = "spearman")
+PlotCorrelogram(matrix, correlation = "pearson")
 }
 \arguments{
 \item{matrix, }{a matrix with barcode as rownames and values as columns}
