@@ -204,7 +204,7 @@ ui_myApp<-function() {
                   radioButtons(inputId = "correlDup",
                                label = "Choose your correlation method :", inline = TRUE,
                                choices = c("spearman", "pearson"),
-                               selected = "spearman")
+                               selected = "pearson")
               )
             )
            ), # end of column user questions
@@ -423,7 +423,7 @@ ui_myApp<-function() {
              radioButtons(inputId = "correlation",
                           label = "Choose your correlation method :", inline = TRUE,
                           choices = c("spearman", "pearson"),
-                          selected = "spearman"))),
+                          selected = "pearson"))),
        box(align="center", width = "100%", height = "100%",
            #uiOutput("CloneSizeUI"),
            conditionalPanel("input.value.length==0 ",

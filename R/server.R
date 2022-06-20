@@ -16,7 +16,6 @@
 #' @import tidyr
 #' @import ggpubr
 #' @import gridExtra
-#' @import gridExtra
 #' @import stats
 #' @import RColorBrewer
 #' @import rlang
@@ -207,8 +206,18 @@ server_myApp<-function(input, output, session) {
               theme(strip.text.x = element_text(face = "bold", size= 15)) + # Change
               xlab(paste0("Barcode abundances : ", dup_val[1], " (", input$QCtransformation , ")")) +
               ylab(paste0("Barcode abundances : ", dup_val[2], " (", input$QCtransformation , ")"))
-            grob <- grobTree(textGrob(paste0(input$correlDup, ":\npval=",round(filtred_matrix$cor, 2)), x=0.05,  y=0.85, hjust=0))
-            p <- p + annotation_custom(grob)
+
+            f_labels = filtred_matrix %>%
+              group_by(Sample_names) %>%
+              summarise(cor) %>%
+              distinct()
+
+            f_labels$var<-paste0(input$correlDup, ":\npval=", f_labels$cor)
+
+            p <- p + geom_text(aes_string(label = "var",x = -Inf, y = Inf), ######### bug when print cor !!!!!!!!!
+                               hjust   = -0.1,
+                               vjust   =  1,
+                               data = f_labels)
             p
           })
 
@@ -223,8 +232,18 @@ server_myApp<-function(input, output, session) {
               theme(strip.text.x = element_text(face = "bold", size= 15)) + # Change
               xlab(paste0("Barcode abundances : ", dup_val[1], " (", input$QCtransformation , ")")) +
               ylab(paste0("Barcode abundances : ", dup_val[2], " (", input$QCtransformation , ")"))
-            grob <- grobTree(textGrob(paste0(input$correlDup, ":\npval=",round(filtred_matrix$cor, 2)), x=0.05,  y=0.85, hjust=0))
-            p <- p + annotation_custom(grob)
+
+            f_labels = filtred_matrix %>%
+              group_by(Sample_names) %>%
+              summarise(cor) %>%
+              distinct()
+
+            f_labels$var<-paste0(input$correlDup, ":\npval=", f_labels$cor)
+
+            p <- p + geom_text(aes_string(label = "var",x = -Inf, y = Inf), ######### bug when print cor !!!!!!!!!
+                               hjust   = -0.1,
+                               vjust   =  1,
+                               data = f_labels)
             p
           })
         }
@@ -1008,7 +1027,7 @@ server_myApp<-function(input, output, session) {
 
     piechart_mat<-reactive({
       if(input$graphType1=="Dotplot"){
-        piechart_mat<-MakePieChartMatrix(abundance_matx_dotplot(), input$organism, input$colorSB )
+        piechart_mat<-MakePieChartMatrix(abundance_matx_dotplot(), indivVar = input$organism, colorVar = input$colorSB )
         piechart_mat
       }
    })
@@ -1067,7 +1086,7 @@ server_myApp<-function(input, output, session) {
                                                           content = function(fname){ write.csv(abundance_matx_dotplot(), fname)})
 
           # piechart
-          piechartImage<- reactive({ PlotPieChart(piechart_mat(),input$organism, input$colorSB ) })
+          piechartImage<- reactive({ PlotPieChart(piechart_mat()) })
           output$downloadImage_piechart <- downloadHandler(filename = function() {paste0("piechart_", input$x_val, "VS", input$y_val,".png")},
                                                           content = function(fname){ggsave(fname, plot = piechartImage(), device = "png")})
 

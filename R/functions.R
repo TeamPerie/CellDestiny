@@ -375,7 +375,7 @@ PlotDuplicates<-function(matrix, dupVal, transformation="arcsin", textSize=15, c
 
   f_labels$var<-paste0(correlation, ":\npval=", f_labels$cor)
 
-  p <- p + geom_text(mapping = aes_string(x = -Inf, y = Inf, label = "var"),
+  p <- p + geom_text(mapping = aes(x = -Inf, y = Inf, label = var),
                      hjust   = -0.1,
                      vjust   =  1,
                      data = f_labels)
@@ -673,7 +673,7 @@ PlotCumulativeDiagram <- function(matrix, indivVar, colorVar="", xProp="no", tex
         scale_x_continuous(labels = percent)
     }
   }else if(colorVar!="" &&  colorVar!=indivVar){ #color is not indiv
-    nbColors=nrow(unique(matrix[,which(colnames(matrix)=="variable")]))
+    nbColors=length(unique(matrix[,which(colnames(matrix)=="variable")]))
     if(nbColors<=8){
       mycolors=colorRampPalette(brewer.pal(8, "Set2"))(8)
     }else{
@@ -700,7 +700,7 @@ PlotCumulativeDiagram <- function(matrix, indivVar, colorVar="", xProp="no", tex
         scale_x_continuous(labels = percent)
     }
   }else{ #color is indiv
-    nbColors=nrow(unique(matrix[,which(colnames(matrix)==colorVar)]))
+    nbColors=length(unique(matrix[,which(colnames(matrix)==colorVar)]))
     if(nbColors<=8){
       mycolors=colorRampPalette(brewer.pal(8, "Set2"))(8)
     }else{

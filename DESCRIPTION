@@ -9,7 +9,7 @@ Authors@R: c(person(given = "Louisa",
            family = "Perié",
            role = c("aut"),
            email = "leila.perie@curie.fr"))
-Description: Visualize sample qualities and highlight biological insights from your lineage-tracing data
+Description: Visualize sample qualities and highlight biological insights from your lineage-tracing data.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
@@ -26,7 +26,6 @@ Imports:
     ggtern,
     ggforce,
     ggpubr,
-    grid,
     gridExtra,
     plyr,
     dplyr,
