@@ -197,7 +197,16 @@ server_myApp<-function(input, output, session) {
         dup_val<-dup_val()
         if(length(unique(filtred_matrix$Sample_names))<4){ # if less than 2 rows to fill, bug with facet_wrap_paginate
           output[[plotname]]<-renderPlot({
-            p<-ggplot(filtred_matrix, aes(x=trans_dup1, y=trans_dup2))+
+
+            f_labels=filtred_matrix %>%
+              group_by(Sample_names) %>%
+              select(cor) %>%
+              distinct()
+
+            f_labels$var<-paste0(input$correlDup, ": ",f_labels$cor)
+
+            p<-ggplot(filtred_matrix, aes(x=trans_dup1, y=trans_dup2))  +
+              geom_point(size=2.5, alpha=0.8, color="#7fdbbe") +
               facet_wrap_paginate(~Sample_names, page=my_i) +
               geom_point(size=2.5, alpha=0.8, color="#7fdbbe") +
               theme_bw() +
@@ -205,24 +214,22 @@ server_myApp<-function(input, output, session) {
               theme(text = element_text(size = 15)) + # Change font size
               theme(strip.text.x = element_text(face = "bold", size= 15)) + # Change
               xlab(paste0("Barcode abundances : ", dup_val[1], " (", input$QCtransformation , ")")) +
-              ylab(paste0("Barcode abundances : ", dup_val[2], " (", input$QCtransformation , ")"))
+              ylab(paste0("Barcode abundances : ", dup_val[2], " (", input$QCtransformation , ")")) +
+              geom_text(mapping = aes(label = var, x = -Inf, y = Inf),  hjust= -0.1, vjust=  1, data = f_labels)
 
-            f_labels = filtred_matrix %>%
-              group_by(Sample_names) %>%
-              summarise(cor) %>%
-              distinct()
-
-            f_labels$var<-paste0(input$correlDup, ":\npval=", f_labels$cor)
-
-            p <- p + geom_text(aes_string(label = "var",x = -Inf, y = Inf), ######### bug when print cor !!!!!!!!!
-                               hjust   = -0.1,
-                               vjust   =  1,
-                               data = f_labels)
             p
           })
 
         }else{
           output[[plotname]]<-renderPlot({
+
+            f_labels=filtred_matrix %>%
+              group_by(Sample_names) %>%
+              select(cor) %>%
+              distinct()
+
+            f_labels$var<-paste0(input$correlDup, ": ",f_labels$cor)
+
             p<-ggplot(filtred_matrix, aes(x=trans_dup1, y=trans_dup2))  +
               geom_point(size=2.5, alpha=0.8, color="#7fdbbe") +
               facet_wrap_paginate(~Sample_names, ncol=2, nrow=3,page=my_i) +
@@ -231,19 +238,9 @@ server_myApp<-function(input, output, session) {
               theme(text = element_text(size = 15))  + # Change font size
               theme(strip.text.x = element_text(face = "bold", size= 15)) + # Change
               xlab(paste0("Barcode abundances : ", dup_val[1], " (", input$QCtransformation , ")")) +
-              ylab(paste0("Barcode abundances : ", dup_val[2], " (", input$QCtransformation , ")"))
+              ylab(paste0("Barcode abundances : ", dup_val[2], " (", input$QCtransformation , ")")) +
+              geom_text(mapping = aes(label = var, x = -Inf, y = Inf),  hjust= -0.1, vjust=  1, data = f_labels)
 
-            f_labels = filtred_matrix %>%
-              group_by(Sample_names) %>%
-              summarise(cor) %>%
-              distinct()
-
-            f_labels$var<-paste0(input$correlDup, ":\npval=", f_labels$cor)
-
-            p <- p + geom_text(aes_string(label = "var",x = -Inf, y = Inf), ######### bug when print cor !!!!!!!!!
-                               hjust   = -0.1,
-                               vjust   =  1,
-                               data = f_labels)
             p
           })
         }

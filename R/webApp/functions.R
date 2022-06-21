@@ -359,6 +359,14 @@ MakeDuplicatesMatrix<-function(matrix, listVar, listVal, metadata){
 #'
 #' @export
 PlotDuplicates<-function(matrix, dupVal, transformation="arcsin", textSize=15, correlation ="pearson"){
+
+  f_labels=matrix %>%
+    group_by(Sample_names) %>%
+    select(cor) %>%
+    distinct()
+
+  f_labels$var<-paste0(correlation, ": ",f_labels$cor)
+
   p<-ggplot(matrix, aes(x=trans_dup1, y=trans_dup2))  +
     geom_point(size=2.5, alpha=0.8, color="#7fdbbe") +
     facet_wrap(facets = ~Sample_names) +
@@ -367,16 +375,9 @@ PlotDuplicates<-function(matrix, dupVal, transformation="arcsin", textSize=15, c
     theme(text = element_text(size = textSize))  + # Change font size
     theme(strip.text.x = element_text(face = "bold", size= textSize)) + # Change
     xlab(paste0("Barcode abundances : ", dupVal[1], " (", transformation , ")")) +
-    ylab(paste0("Barcode abundances : ", dupVal[2], " (", transformation , ")"))
+    ylab(paste0("Barcode abundances : ", dupVal[2], " (", transformation , ")")) + # Change
+    geom_text(mapping = aes(label = var, x = -Inf, y = Inf),  hjust= -0.1, vjust=  1, data = f_labels)
 
-  f_labels = dup_mat %>% group_by(Sample_names) %>%
-    summarise(cor) %>%
-    distinct()
-
-  p <- p + geom_text(mapping = aes(x = -Inf, y = Inf, label = paste0(correlation, ":\npval=", cor)),
-                     hjust   = -0.1,
-                     vjust   =  1,
-                     data = f_labels)
   return(p)
 }
 
