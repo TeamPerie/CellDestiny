@@ -15,11 +15,11 @@ PlotCategories(
 \arguments{
 \item{catMatx}{, the first matrix of the list created with MakeCategoryMatrices function}
 
-\item{threshold}{, the lineage bias threshold, default is 10}
+\item{threshold}{, the lineage bias threshold, default is 10. Same used for MakeCategoryMatrices function.}
 
-\item{conditionVal}{, value of the condition, default is ""}
+\item{conditionVal}{, value of the condition, default is "". Same used for MakeCategoryMatrices function.}
 
-\item{textSize}{, the sier of the text, default is 15}
+\item{textSize}{, the sier of the text, default is 15.}
 
 \item{legendPos}{, position of the legend arround the plot, default is right. Other options are "bottom" or "top" or "left".}
 }

@@ -9,11 +9,11 @@ PlotTernaryPlot(matrix, indivVar, addColor = "no", textSize = 15)
 \arguments{
 \item{matrix, }{a dataframe created by MakeTernaryMatrix function}
 
-\item{indivVar, }{individuals variable name}
+\item{indivVar, }{individuals variable name, same as used in MakeTernaryMatrix function}
 
 \item{addColor, }{should the dots be colored by individuals, default is "no". Other is "yes"}
 
-\item{colorVar, }{color variable name}
+\item{colorVar, }{variable defining your individuals only}
 }
 \value{
 a ternary plot

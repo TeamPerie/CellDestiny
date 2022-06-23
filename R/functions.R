@@ -896,7 +896,7 @@ MakeDotPlotMatrix<-function(matrixWide, metadata, indivVar, indivVal, xVar, xVal
     }else{
     }
   }else{
-    #no color
+    #no color or colorVar==indivVar !!!
     ### X axis
     x<-LongSubMatrix(matrix, indivVar, indivVal,xVar, xVal, metadata)
     # sum by condition + indiv
@@ -929,7 +929,7 @@ MakeDotPlotMatrix<-function(matrixWide, metadata, indivVar, indivVal, xVar, xVal
 #'
 #' @param longMatrix, a matrix made with MakeDotPlotMatrix function
 #' @param indivVar, individual variable name
-#' @param colorVar, color variable as column in the matrix
+#' @param colorVar, variable defining your individuals only
 #' @param transformation, transformation to use, default is "arcsin". Other is "log10"
 #' @param textSize, size of the text of the plot, deault is 15
 #'
@@ -1111,9 +1111,9 @@ MakeTernaryMatrix<-function(matrixWide, metadata, indivVar, indivVal,topVar, top
 #' Plot a ternary plot
 #'
 #' @param matrix, a dataframe created by MakeTernaryMatrix function
-#' @param indivVar, individuals variable name
-#' @param colorVar, color variable name
+#' @param indivVar, individuals variable name, same as used in MakeTernaryMatrix function
 #' @param addColor, should the dots be colored by individuals, default is "no". Other is "yes"
+#' @param colorVar, variable defining your individuals only
 #'
 #' @return a ternary plot
 #'
@@ -1164,6 +1164,68 @@ PlotTernaryPlot<-function(matrix, indivVar, addColor="no", textSize=15){
 }
 ## ok
 ## nom
+
+
+#' Make bias matrix
+#'
+#' @param matrix, barcode count matrix
+#' @param metadata, the metadata corresponding to the matrix
+#' @param indivVar, name of variable defining individuals
+#' @param indivVal, list of selected individuals
+#' @param cellTypeVar, list of sected variables
+#' @param cellTypeVal, list of sected values
+#' @param condition, is there a condtion, default is "no"
+#' @param conditionVal,  condition value (only one accepted), default is ""
+#'
+#' @return a list of two matrices, the category for PlotCategories function and barcode count matrix for PlotCategoryCount function
+#'
+#' @export
+MakeBiasMatrix<-function(matrix, metadata, indivVar, indivVal, cellTypeVar, cellTypeVal, condition = "no", conditionVal = ""){
+  for(slider in seq(from=0, to = 40, by = 5)){
+    if(slider==0){
+      biasMatx<-MakeCategoryMatrices(matrix, metadata,
+                                     indivVar, indivVal,
+                                     cellTypeVar, cellTypeVal,
+                                     threshold = slider,
+                                     condition, conditionVal)[[2]]
+    }else{
+      biasMatx<-rbind(biasMatx,MakeCategoryMatrices(matrix, metadata,
+                                                    indivVar, indivVal,
+                                                    cellTypeVar, cellTypeVal,
+                                                    threshold = slider,
+                                                    condition, conditionVal)[[2]])
+    }
+  }
+  return(biasMatx)
+}
+
+#' Plot a bias plot
+#'
+#' @param biasMatx, the matrix made with MakeBiasMatrix()
+#' @param conditionVal , condition value (only one accepted), the same as in MakeBiasMatrix(). Default is "".
+#' @param textSize , the sier of the text, default is 15.
+#'
+#' @return a bargraphe
+#'
+#' @export
+PlotBias<-function(biasMatx, conditionVal = "", textSize = 15){
+
+  p<-ggplot(biasMatx, aes(x=Threshold, y=Mean_percent, group=Categories)) +
+    geom_line(aes(color=Categories))+
+    geom_point(aes(color=Categories))+
+    scale_color_brewer(palette = "Set2") +
+    ylab("%BC across individuals") +
+    xlab("% Bias")+
+    theme_classic() +
+    theme(text = element_text(size = textSize))
+
+  if (conditionVal != "") {
+    p <- p + labs(subtitle = paste0("condition : ", conditionVal))
+  }
+
+  return(p)
+}
+
 
 #' Make catergory matrices
 #'
@@ -1325,9 +1387,9 @@ MakeCategoryMatrices<-function(matrixWide, metadata, indivVar, indivVal, cellTyp
 #' Plot a category bias plot
 #'
 #' @param catMatx , the first matrix of the list created with MakeCategoryMatrices function
-#' @param threshold , the lineage bias threshold, default is 10
-#' @param conditionVal , value of the condition, default is ""
-#' @param textSize , the sier of the text, default is 15
+#' @param threshold , the lineage bias threshold, default is 10. Same used for MakeCategoryMatrices function.
+#' @param conditionVal , value of the condition, default is "". Same used for MakeCategoryMatrices function.
+#' @param textSize , the sier of the text, default is 15.
 #' @param legendPos , position of the legend arround the plot, default is right. Other options are "bottom" or "top" or "left".
 #'
 #' @return a bargraphe
@@ -1497,9 +1559,9 @@ CalculDiversity<-function(matrix, metadata, indivVar, indivVal, listVar, listVal
 #'
 #' @param matrix, a long matrix containing diversity measures make with CalculDiversity function
 #' @param diversity, diversity index, default is "Number of barcodes". Others are "Simpson Index" or "Shannon Index"
-#' @param listVar , a list of varaibles
-#' @param indivVar, individuals variable name
-#' @param colorVar , the color variable
+#' @param listVar , a list of varaibles. Same used in CalculDiversity function.
+#' @param indivVar, individuals variable name. Same used in CalculDiversity function.
+#' @param colorVar , the color variable. Same used in CalculDiversity function.
 #' @param dots, reveal dots, default is "no". Other is "yes"
 #' @param labels, show dots labels, default is "no". Other is "yes".
 #' @param textSize, size of the text, default is 15
@@ -1601,5 +1663,4 @@ PlotDiversity <- function (matrix, diversity, listVar, indivVar, colorVar = "", 
 
   return(boxplot)
 }
-## ok
-## nom
+

@@ -17,7 +17,7 @@ PlotDotplot(
 
 \item{indivVar, }{individual variable name}
 
-\item{colorVar, }{color variable as column in the matrix}
+\item{colorVar, }{variable defining your individuals only}
 
 \item{transformation, }{transformation to use, default is "arcsin". Other is "log10"}
 
