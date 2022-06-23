@@ -20,11 +20,11 @@ PlotDiversity(
 
 \item{diversity, }{diversity index, default is "Number of barcodes". Others are "Simpson Index" or "Shannon Index"}
 
-\item{listVar}{, a list of varaibles}
+\item{listVar}{, a list of varaibles. Same used in CalculDiversity function.}
 
-\item{indivVar, }{individuals variable name}
+\item{indivVar, }{individuals variable name. Same used in CalculDiversity function.}
 
-\item{colorVar}{, the color variable}
+\item{colorVar}{, the color variable. Same used in CalculDiversity function.}
 
 \item{dots, }{reveal dots, default is "no". Other is "yes"}
 
