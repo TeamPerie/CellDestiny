@@ -1508,65 +1508,97 @@ CalculDiversity<-function(matrix, metadata, indivVar, indivVal, listVar, listVal
 #' @return a boxplot
 #'
 #' @export
-PlotDiversity <- function(matrix, diversity, listVar, indivVar, colorVar="", dots="no", labels="no", textSize=15){
-  mycolors <- colorRampPalette(brewer.pal(8, "Set2"))(20)
-  # If diversity in y :
-  #}else{
-  nb_var<-length(listVar)
-  ## if more than one variable selected; take into account merged names of variables == NewVar
-  # if no color
-  if(nb_var>1 && colorVar==""){
-    ncol_div<-which(colnames(matrix)==diversity)
-    varName=paste(listVar, collapse= "_")
-    boxplot<-ggplot(matrix, aes_string(x=varName, y=as.name(diversity), fill=varName)) +
-      geom_boxplot(color="black") +
-      theme_classic()+
-      scale_fill_manual(values = brewer.pal(8,name = "Set2")) +
-      theme(legend.position = 'none')
-    # if color
-  }else if (nb_var>1 && colorVar!=""){
-    varName=paste(listVar, collapse= "_")
-    ncol_div<-which(colnames(matrix)==diversity)
-    ncol_color<-which(colnames(matrix)==colorVar)
-    boxplot<-ggplot(matrix, aes_string(x=varName, y=as.name(diversity), fill=colorVar)) +
-      geom_boxplot()+
-      theme_classic() +
-      labs(color = colorVar) +
-      scale_fill_brewer(palette="Set2")
-    ## if only one variable
-    # if no color
-  }else if (nb_var==1 && colorVar=="") {
-    boxplot<-ggplot(matrix, aes_string(x=listVar, y=as.name(diversity), fill=listVar)) +
-      geom_boxplot(color="black")+
-      theme_classic() +
-      xlab("")+
-      scale_fill_manual(values = mycolors)+
-      theme(legend.position = 'none')
-    # if color
-  }else if (nb_var==1 && colorVar!="") {
-    boxplot<-ggplot(matrix, aes_string(x=listVar, y=as.name(diversity), fill=colorVar)) +
-      geom_boxplot()+
-      theme_classic() +
-      labs(color = colorVar) +
-      scale_fill_brewer(palette="Set2")
-  }else{
-    print("else nothing")
-  }
-  #}
+PlotDiversity <- function (matrix, diversity, listVar, indivVar, colorVar = "", dots = "no", labels = "no", textSize = 15) {
+  mycolors <- colorRampPalette(brewer.pal(8, "Set2"))(12)
+  nb_var <- length(listVar)
+  nbDots<-length(unique(matrix[,which(colnames(matrix)==indivVar)]))
+  if (nb_var > 1 && colorVar == "") {
+    ncol_div <- which(colnames(matrix) == diversity)
+    varName = paste(listVar, collapse = "_")
+    boxplot <- ggplot(matrix, aes_string(x = varName, y = as.name(diversity))) +
+      theme_classic()
+    if(nbDots>=5){
+      # boxplot
+      boxplot <- boxplot +
+        geom_boxplot(color = "black", aes_string(fill = varName)) +
+        scale_fill_manual(values = mycolors) +
+        theme(legend.position = "none")
+    }else{
+      # dotplot
+      boxplot <- boxplot +
+        scale_color_manual(values = mycolors) +
+        geom_point(aes_string(shape=indivVar, color = varName, size=0.7), position = "jitter")+
+        scale_size(guide = 'none')}
 
-  # add dots if yes
-  if(dots=="yes"){
-    boxplot <- boxplot + geom_point(position=position_dodge(width=0.75))
-    if(labels=="yes"){
-      boxplot <- boxplot + geom_text(aes_string(label = indivVar), check_overlap = TRUE,
-                                     position=position_jitter(width = 0.15))
+  }else if (nb_var > 1 && colorVar != "") {
+    varName = paste(listVar, collapse = "_")
+    ncol_div <- which(colnames(matrix) == diversity)
+    ncol_color <- which(colnames(matrix) == colorVar)
+    boxplot <- ggplot(matrix, aes_string(x = varName, y = as.name(diversity))) +
+      theme_classic() +
+      labs(color = varName)
+    if(nbDots>=5){
+      # if boxplot
+      boxplot <- boxplot +
+        geom_boxplot(color = "black", aes_string(fill = colorVar)) +
+        scale_fill_manual(values = mycolors) +
+        labs(color = colorVar)
+    }else{
+      # if dotplot
+      boxplot <- boxplot +
+        scale_color_manual(values = mycolors) +
+        geom_point(aes_string(shape=colorVar, color = varName, size=0.5), position = "jitter")+
+        scale_size(guide = 'none')
+    }
+
+  } else if (nb_var == 1 && colorVar == "") {
+    boxplot <- ggplot(matrix, aes_string(x = listVar, y = as.name(diversity))) +
+      theme_classic() + xlab("")
+    if(nbDots>=5){
+      # if boxplot
+      boxplot <- boxplot +
+        geom_boxplot(color = "black", aes_string(fill = listVar)) +
+        scale_fill_manual(values = mycolors) +
+        labs(color = listVar)
+    }else{
+      # if dotplot
+      boxplot <- boxplot +
+        scale_color_manual(values = mycolors) +
+        geom_point(aes_string(shape=indivVar, color = listVar, size=0.7), position = "jitter")+
+        scale_size(guide = 'none')
+    }
+  }else if (nb_var == 1 && colorVar != "") {
+
+    boxplot <- ggplot(matrix, aes_string(x = listVar, y = as.name(diversity))) +
+      theme_classic()
+
+    if(nbDots>=5){
+      # if boxplot
+      boxplot <- boxplot +
+        geom_boxplot(color = "black", aes_string(fill = colorVar)) +
+        scale_fill_manual(values = mycolors) +
+        labs(color = colorVar)
+    }else{
+      # if dotplot
+      boxplot <- boxplot +
+        scale_color_manual(values = mycolors) +
+        geom_point(aes_string(shape=colorVar, color = listVar, size=0.7), position = "jitter")+
+        scale_size(guide = 'none')
+    }
+  }else { print("else nothing")}
+
+  if (dots == "yes") {
+    boxplot <- boxplot + geom_point(position = position_dodge(width = 0.75))
+    if (labels == "yes") {
+      boxplot <- boxplot + geom_text(aes_string(label = indivVar),
+                                     check_overlap = TRUE, position = position_jitter(width = 0.15))
     }
   }
 
-  boxplot<- boxplot  +
-    theme(text = element_text(size = textSize))+
-    ylab(diversity) +
-    xlab("")
+  boxplot <- boxplot +
+    theme(text = element_text(size = textSize),
+          axis.text.x=element_text(angle = 30, hjust = 1), legend.text = element_text(size = 10), legend.title = element_text(size = 10)) +
+    ylab(diversity) + xlab("")
 
   return(boxplot)
 }
