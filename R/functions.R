@@ -1163,8 +1163,6 @@ PlotTernaryPlot<-function(matrix, indivVar, addColor="no", textSize=15){
   return(ternary)
 }
 ## ok
-## nom
-
 
 #' Make bias matrix
 #'
@@ -1180,7 +1178,7 @@ PlotTernaryPlot<-function(matrix, indivVar, addColor="no", textSize=15){
 #' @return a list of two matrices, the category for PlotCategories function and barcode count matrix for PlotCategoryCount function
 #'
 #' @export
-MakeBiasMatrix<-function(matrix, metadata, indivVar, indivVal, cellTypeVar, cellTypeVal, condition = "no", conditionVal = ""){
+MakeBiasPerCatMatrix<-function(matrix, metadata, indivVar, indivVal, cellTypeVar, cellTypeVal, condition = "no", conditionVal = ""){
   for(slider in seq(from=0, to = 40, by = 5)){
     if(slider==0){
       biasMatx<-MakeCategoryMatrices(matrix, metadata,
@@ -1201,14 +1199,14 @@ MakeBiasMatrix<-function(matrix, metadata, indivVar, indivVal, cellTypeVar, cell
 
 #' Plot a bias plot
 #'
-#' @param biasMatx, the matrix made with MakeBiasMatrix()
-#' @param conditionVal , condition value (only one accepted), the same as in MakeBiasMatrix(). Default is "".
+#' @param biasMatx, the matrix made with MakeBiasPerCatMatrix()
+#' @param conditionVal , condition value (only one accepted), the same as in MakeBiasPerCatMatrix(). Default is "".
 #' @param textSize , the sier of the text, default is 15.
 #'
 #' @return a bargraphe
 #'
 #' @export
-PlotBias<-function(biasMatx, conditionVal = "", textSize = 15){
+PlotBiasPerCat<-function(biasMatx, conditionVal = "", textSize = 15){
 
   p<-ggplot(biasMatx, aes(x=Threshold, y=Mean_percent, group=Categories)) +
     geom_line(aes(color=Categories))+
@@ -1226,6 +1224,68 @@ PlotBias<-function(biasMatx, conditionVal = "", textSize = 15){
   return(p)
 }
 
+#' Make bias matrix
+#'
+#' @param matrix, barcode count matrix
+#' @param metadata, the metadata corresponding to the matrix
+#' @param indivVar, name of variable defining individuals
+#' @param indivVal, list of selected individuals
+#' @param cellTypeVar, list of sected variables
+#' @param cellTypeVal, list of sected values, at least 2.
+#' @param condition, is there a condtion, default is "no"
+#' @param conditionVal,  condition value (only one accepted), default is ""
+#'
+#' @return a list of two matrices, the category for PlotCategories function and barcode count matrix for PlotCategoryCount function
+#'
+#' @export
+MakeBiasPerTypeMatrix<-function(matrix, metadata, indivVar, indivVal, cellTypeVar, cellTypeVal,condition = "no", conditionVal = ""){
+  for(slider in seq(from=0, to = 40, by =10)){
+    if(slider==0){
+      biasMatx<-MakeCategoryMatrices(matrix, metadata,
+                                     indivVar, indivVal,
+                                     cellTypeVar, cellTypeVal,
+                                     threshold = slider,
+                                     condition, conditionVal)[[1]]
+    }else{
+      biasMatx<-rbind(biasMatx,MakeCategoryMatrices(matrix, metadata,
+                                                    indivVar, indivVal,
+                                                    cellTypeVar, cellTypeVal,
+                                                    threshold = slider,
+                                                    condition, conditionVal)[[1]])
+    }
+  }
+
+  return(biasMatx)
+}
+
+#' Plot a bias plot
+#'
+#' @param biasMatx, the matrix made with MakeBiasPerTypeMatrix()
+#' @param y , the cell type that you want to plot in y axis. It has to be one of the cellTypeVal used in MakeBiasPerTypeMatrix()
+#' @param conditionVal , condition value (only one accepted), the same as in MakeBiasPerTypeMatrix(). Default is "".
+#' @param textSize , the sier of the text, default is 15.
+#'
+#' @return a bargraphe
+#'
+#' @export
+PlotBiasPerType<-function(biasMatx, y ,conditionVal = "", textSize = 15){
+
+  mat<-filter(biasMatx, Variable==y)
+
+  p<-ggplot(mat, aes(x=Threshold, y=percent_nbBc, fill=Categories),stat="identity") +
+    geom_bar(colour="black", stat="identity") +
+    ylab(paste0("%BC in ", y)) +
+    xlab("% Bias")+
+    theme_classic() +
+    theme(text = element_text(size = textSize)) +
+    scale_fill_brewer(palette = "Set2")
+
+  if (conditionVal != "") {
+    p <- p + labs(subtitle = paste0("condition : ", conditionVal))
+  }
+
+  return(p)
+}
 
 #' Make catergory matrices
 #'
