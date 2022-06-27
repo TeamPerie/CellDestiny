@@ -976,16 +976,16 @@ tabItem(tabName = "categorisationMenu",
                        plotOutput(outputId="bargraphCat_percent"),
                        downloadButton("downloadImage_percent", "Plot"),
                        downloadButton("downloadTable_percent", "Matrix")
-      )
+      ),
 
       conditionalPanel("input.catVal.length>1 && input.organismCat.length>0 && input.CatGraph=='Bias analysis'",
                       # first plot
-                      withLoader(plotOutput(outputId="bargraphCat_counts"), type = "html", loader = "dnaspin"),
+                      withLoader(plotOutput(outputId="biasPerType"), type = "html", loader = "dnaspin"),
                       downloadButton("downloadImage_biasType", "Plot"),
                       downloadButton("downloadTable_biasType", "Matrix"),
 
                       # second plot
-                      plotOutput(outputId="bargraphCat_percent"),
+                      plotOutput(outputId="biasPerCat"),
                       downloadButton("downloadImage_biasCat", "Plot"),
                       downloadButton("downloadTable_biasCat", "Matrix")
       )

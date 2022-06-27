@@ -1270,7 +1270,7 @@ MakeBiasPerTypeMatrix<-function(matrix, metadata, indivVar, indivVal, cellTypeVa
 #' @export
 PlotBiasPerType<-function(biasMatx, y ,conditionVal = "", textSize = 15){
 
-  mat<-filter(biasMatx, Variable==y)
+  mat<-dplyr::filter(biasMatx, Variable==y)
 
   p<-ggplot(mat, aes(x=Threshold, y=percent_nbBc, fill=Categories),stat="identity") +
     geom_bar(colour="black", stat="identity") +
