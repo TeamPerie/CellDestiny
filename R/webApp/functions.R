@@ -1212,7 +1212,7 @@ PlotBiasPerCat<-function(biasMatx, conditionVal = "", textSize = 15){
     geom_line(aes(color=Categories))+
     geom_point(aes(color=Categories))+
     scale_color_brewer(palette = "Set2") +
-    ylab("%BC across individuals") +
+    ylab("%BC") +
     xlab("% Bias")+
     theme_classic() +
     theme(text = element_text(size = textSize))
@@ -1489,7 +1489,7 @@ PlotCategoryCounts<-function(catCountMatx, threshold=10, conditionVal="", textSi
   plot<-ggplot(catCountMatx, aes(x=Categories, y=Mean_percent, fill=Categories)) +
     geom_bar(stat="identity", color="black") +
     scale_fill_brewer(palette = "Set2")+
-    ylab("%BC across individuals") +
+    ylab("%BC") +
     xlab("") +
     geom_errorbar(aes(ymin=Mean_percent-Sd_percent, ymax=Mean_percent+Sd_percent), width = 0.3) +
     ggtitle(paste0(threshold, "% bias")) +
@@ -1709,7 +1709,7 @@ PlotDiversity <- function (matrix, diversity, listVar, indivVar, colorVar = "", 
     }
   }else { print("else nothing")}
 
-  if (dots == "yes") {
+  if (dots == "yes" & nbDots>=5) {
     boxplot <- boxplot + geom_point(position = position_dodge(width = 0.75))
     if (labels == "yes") {
       boxplot <- boxplot + geom_text(aes_string(label = indivVar),

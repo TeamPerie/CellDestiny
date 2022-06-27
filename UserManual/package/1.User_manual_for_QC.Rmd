@@ -7,7 +7,11 @@ output: pdf_document
 
 <br/>
 
-##### Here, we show how to use CellDestiny as a package using lentiviral barcoding data studied in https://github.com/TeamPerie/HadjAbed-et-al._2022.
+### Overview
+
+In this vignette, we provide a walkthrough analysis of a lentiviral barcoding study of dendritic cells as described in: \href{https://github.com/TeamPerie/HadjAbed-et-al._2022}{HadjAbed et al. 2022}. Specifically, we wish to assess if a single MPP4 can produce both the cDC1 and the cDC2 subsets in the lung or whether a single MPP4 is fate-restricted to only produce cDC1 or cDCs. 
+
+To address this research question, we used a lentiviral barcoding approach focusing on the differentiation of (Lin-, Sca-1+, cKit+, Flt3+) MPP4s towards lung-resident cDCs. Murine MPP4s were purified from the bone marrow of donor mice by fluorescence activated cell sorting and infected with the LG2.2 lentiviral barcoding library. Labelled cells where then injected I.V into 3 irradiated recipient mice. 14 days later, lungs were isolated from the mice, and barcoded cDC1s, and cDC2s were purified by FACS. Samples were then processed for barcode detection in genomic DNA by deep sequencing.
 
 ##### In this script we visualise key QC steps of the data before proceeding to make comparisons between cDC1 and cDC2 dendritic cells subtypes in three mice. 
 
@@ -49,29 +53,37 @@ dup_val=metadata$duplicates
 #### The first function to call is ReformatQCmatrix() that calcul correlations and transforms your count matrix in a way that fits MakeDuplicatesMatrix() or MakeRepeatUseMatrix() input matrix format. 
 
 ```{r, echo=TRUE, warning=FALSE, message=FALSE}
-qc_mat<-ReformatQCmatrix(count_matrix, metadata, dup_var, dup_val, sampleNameFieldsep = "_", transformation = "arcsin")
+qc_mat<-ReformatQCmatrix(count_matrix, metadata, dup_var, dup_val, 
+                         sampleNameFieldsep = "_", transformation = "arcsin")
 
-# Here, sampleNameFieldsep and transformation parameters are set to default ones. 
-# The transformation is applied to duplicat columns and saved in trans_dup1 and trans_dup2 column names as follow. 
+# Here, sampleNameFieldsep and transformation parameters are set to default 
+# ones. 
+# The transformation is applied to duplicat columns and saved in trans_dup1 and 
+# trans_dup2 column names as follow. 
 
 head(qc_mat)
 ```
 
-### Duplicates checking 
+### Assess the frequency of repeat-use barcodes
 
-##### Here we look at the consistency of technical replicates.
+<br/>
+
+
+The integration of the same barcode into multiple cells, called repeat usage, is also an important QC metric that should be considered in a lineage tracing analysis pipeline, as a high incidence of repeat usage may lead to false lineage relationship assignments. The transfer of progenitors from the same transduction batch into at least two separate mice, followed by subsequent comparison of the barcodes recovered from those mice, can be used to estimate the frequency of repeat barcode use within one mouse. 
 
 ![](../../images/duplicates_check.png)
 
 
-##### We want to plot duplciates of all samples, not specific ones. To do so, we select all values from a variable (here variable type and its values).
+##### We want to plot duplciates of all samples, not specific ones. To do so, we select all values from a variable (here variable "type" and its values : "cDC1" and "cDC2").
 
 ```{r, echo=TRUE, warning=FALSE, message=FALSE}
 # parameter describing our cell types 
 list_var = c("type")
 list_val = metadata$type
 
-dup_mat<-MakeDuplicatesMatrix(matrix = qc_mat, listVar = list_var, listVal = list_val, metadata = metadata)
+dup_mat<-MakeDuplicatesMatrix(matrix = qc_mat, 
+                              listVar = list_var, listVal = list_val, 
+                              metadata = metadata)
 PlotDuplicates(dup_mat, dup_val, transformation = "arcsin")
 ```
 

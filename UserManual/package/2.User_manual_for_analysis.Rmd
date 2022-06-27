@@ -7,9 +7,13 @@ output: pdf_document
 
 <br/>
 
-##### Here, we show how to use CellDestiny as a package using lentiviral barcoding data studied in https://github.com/TeamPerie/HadjAbed-et-al._2022.
+### Overview
 
-##### Now, we've seen that the QC is ok, we visualise in this script key analysis steps of the data comparing cDC1 and cDC2 dendritic cells subtypes in three mice. 
+In this vignette, we provide a walkthrough analysis of a lentiviral barcoding study of dendritic cells as described in: \href{https://github.com/TeamPerie/HadjAbed-et-al._2022}{HadjAbed et al. 2022}. Specifically, we wish to assess if a single MPP4 can produce both the cDC1 and the cDC2 subsets in the lung or whether a single MPP4 is fate-restricted to only produce cDC1 or cDCs. 
+
+To address this research question, we used a lentiviral barcoding approach focusing on the differentiation of (Lin-, Sca-1+, cKit+, Flt3+) MPP4s towards lung-resident cDCs. Murine MPP4s were purified from the bone marrow of donor mice by fluorescence activated cell sorting and infected with the LG2.2 lentiviral barcoding library. Labelled cells where then injected I.V into 3 irradiated recipient mice. 14 days later, lungs were isolated from the mice, and barcoded cDC1s, and cDC2s were purified by FACS. Samples were then processed for barcode detection in genomic DNA by deep sequencing.
+
+##### Now, we've seen that the [QC](https://github.com/TeamPerie/CellDestiny/blob/main/UserManual/package/1.User_manual_for_QC.Rmd) is ok, we visualise in this script key analysis steps of the data comparing cDC1 and cDC2 dendritic cells subtypes in three mice. 
 
 <br/>
 
@@ -41,7 +45,8 @@ metadata
 ```{r, echo=TRUE, warning=FALSE, message=FALSE}
 # Common parameters
 indiv_var="mouse"
-indiv_val=c("2", "4", "5") # you can change it according if you  want to plot all individuals or not
+indiv_val=c("2", "4", "5") # you can change it according if you 
+                           # want to plot all individuals or not
 ```
 
 ##### All along the script, there are two ***types of functions***: 
@@ -73,8 +78,13 @@ pool=FALSE # do you want to pool individuals ?
 ```
 
 ```{r, echo=TRUE, warning=FALSE, message=FALSE}
-heat_mat<-MakeHeatmapMatrix(matrix = count_matrix, metadata = metadata, indivVar = indiv_var, indivVal = indiv_val, listVar = list_var,  listVal = list_val, poolIndiv = pool)
-p<-PlotHeatmap(heat_mat, distance = distance, clustering = clusteringMeth, showDendro = dendro, showBarcodes = barcodes, nClusters = nclust, columnTextSize = 1.5)
+heat_mat<-MakeHeatmapMatrix(matrix = count_matrix, metadata = metadata, 
+                            indivVar = indiv_var, indivVal = indiv_val, 
+                            listVar = list_var,  listVal = list_val, 
+                            poolIndiv = pool)
+p<-PlotHeatmap(heat_mat, distance = distance, clustering = clusteringMeth, 
+               showDendro = dendro, showBarcodes = barcodes, 
+               nClusters = nclust, columnTextSize = 1.5)
 ```
 
 #### Correlogram 
@@ -101,7 +111,9 @@ list_val = metadata$type
 indiv_val=c("2", "4", "5")
 colorFreq="type"
 
-freq_mat<-MakeBarcodeFrequenciesMatrix(count_matrix, metadata, indiv_var, indiv_val, list_var, list_val)
+freq_mat<-MakeBarcodeFrequenciesMatrix(count_matrix, metadata, 
+                                       indiv_var, indiv_val, 
+                                       list_var, list_val)
 PlotBarcodeFrequencies(freq_mat, colorFreq, y = "histogram", nbins = 10)
 ```
 
@@ -118,11 +130,16 @@ list_var = c("type")
 list_val = metadata$type
 colorCum="type"
 
-cum_mat_notxProp<-MakeCumulativeDiagramMatrix(count_matrix, metadata, indiv_var, indiv_val, list_var, list_val, colorCum)
+cum_mat_notxProp<-MakeCumulativeDiagramMatrix(count_matrix, metadata, 
+                                              indiv_var, indiv_val, 
+                                              list_var, list_val, colorCum)
 PlotCumulativeDiagram(cum_mat_notxProp,indiv_var, colorCum)
 
 # add xProp = "yes"
-cum_mat_xProp<-MakeCumulativeDiagramMatrix(count_matrix, metadata, indiv_var, indiv_val, list_var, list_val, colorCum, xProp = "yes")
+cum_mat_xProp<-MakeCumulativeDiagramMatrix(count_matrix, metadata, 
+                                           indiv_var, indiv_val, 
+                                           list_var, list_val, 
+                                           colorCum, xProp = "yes")
 PlotCumulativeDiagram(cum_mat_xProp,indiv_var, colorCum, xProp = "yes")
 ```
 
@@ -136,8 +153,12 @@ Comparing sample diversities is a common step in lineage tracing analysis. Diver
 boxplotColor_var=""
 diversityVar<-"Shannon index"
 
-div_mat<-CalculDiversity(count_matrix, metadata, indiv_var, indiv_val, list_var, list_val ,colorVar=boxplotColor_var, diversity=diversityVar)
-PlotDiversity(div_mat,diversityVar, list_var, indiv_var, colorVar=boxplotColor_var, dots = "yes")
+div_mat<-CalculDiversity(count_matrix, metadata, 
+                         indiv_var, indiv_val, 
+                         list_var, list_val ,
+                         colorVar=boxplotColor_var, diversity=diversityVar)
+PlotDiversity(div_mat,diversityVar, list_var, indiv_var, 
+              colorVar=boxplotColor_var, dots = "no")
 ```
 
 ##### Now lets see if barcode abundances are similar between our cDC1 and cDC2 samples using scatter plot and pie chart visualisations.
@@ -153,7 +174,11 @@ color="" # we dont want color
 
 
 ```{r, echo=TRUE, warning=FALSE, message=FALSE}
-dot_mat<-MakeDotPlotMatrix(count_matrix, metadata, indiv_var, indiv_val,x_var, x_val,y_var, y_val, color)
+dot_mat<-MakeDotPlotMatrix(count_matrix, metadata, 
+                           indiv_var, indiv_val,
+                           x_var, x_val,
+                           y_var, y_val, 
+                           color)
 PlotDotplot(dot_mat, indiv_var, color, textSize = 15) 
 ```
 
@@ -181,15 +206,37 @@ catVal<-metadata$type
 ```{r, echo=TRUE, warning=FALSE, message=FALSE}
 slider<-10 # change the bias threshold thanks to this parameter
 
-## the first matrix of the list outputed by MakeCategoryMatrices() is needed for PlotCategories() input matrix
-count_per_type<-MakeCategoryMatrices(count_matrix, metadata, indiv_var, indiv_val, catVar, catVal, slider)[[1]]
+## the first matrix of the list outputed by MakeCategoryMatrices() is 
+## needed for PlotCategories() input matrix
+count_per_type<-MakeCategoryMatrices(count_matrix, metadata, 
+                                     indiv_var, indiv_val, 
+                                     catVar, catVal, slider)[[1]]
 PlotCategories(count_per_type, slider) 
 
-## the second matrix of the list outputed by MakeCategoryMatrices() is needed for PlotCategoryCounts() input matrix
-count_per_cat<-MakeCategoryMatrices(count_matrix, metadata, indiv_var, indiv_val, catVar, catVal, slider)[[2]]
+## the second matrix of the list outputed by MakeCategoryMatrices() is 
+## needed for PlotCategoryCounts() input matrix
+count_per_cat<-MakeCategoryMatrices(count_matrix, metadata, 
+                                    indiv_var, indiv_val, 
+                                    catVar, catVal, slider)[[2]]
 PlotCategoryCounts(count_per_cat, slider)
 ```
 
 
+### Bias threshold analysis 
 
+CellDestiny offers also a way to get an overview of the categorisation accross bias threshold values. 
+
+```{r, echo=TRUE, warning=FALSE, message=FALSE}
+biasType<-MakeBiasPerTypeMatrix(count_matrix, metadata, 
+                                indiv_var, indiv_val, 
+                                catVar, catVal)
+PlotBiasPerType(biasType, y = "cDC1")
+```
+
+```{r, echo=TRUE, warning=FALSE, message=FALSE}
+bias<-MakeBiasPerCatMatrix(count_matrix, metadata, 
+                           indiv_var, indiv_val, 
+                           catVar, catVal)
+PlotBiasPerCat(bias)
+```
 

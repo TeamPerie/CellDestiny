@@ -131,8 +131,6 @@ PlotRepeatUse(ru_mat, indiv_var,textSize = 12)
 ```
 
 
-
-
 Both duplicates and repeat use checking are ok. We can now go further in the biological analysis and use the analysis part once duplicated samples are merged. 
 
 <br/>
