@@ -17,6 +17,8 @@ MakeCategoryMatrices(
 )
 }
 \arguments{
+\item{matrixWide, }{barcode count matrix}
+
 \item{metadata, }{the metadata corresponding to the matrix}
 
 \item{indivVar, }{name of variable defining individuals}
@@ -32,8 +34,6 @@ MakeCategoryMatrices(
 \item{condition, }{is there a condtion, default is "no"}
 
 \item{conditionVal, }{condition value (only one accepted), default is ""}
-
-\item{matrix, }{barcode count matrix}
 }
 \value{
 a list of two matrices, the category for PlotCategories function and barcode count matrix for PlotCategoryCount function

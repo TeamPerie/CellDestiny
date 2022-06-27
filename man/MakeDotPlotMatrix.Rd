@@ -35,6 +35,8 @@ MakeDotPlotMatrix(
 \item{yVal, }{y axis values}
 
 \item{colorVar, }{color variable as column in the matrix}
+
+\item{transformation, }{transformation to use, default is "arcsin". Other is "log10"}
 }
 \value{
 a matrix

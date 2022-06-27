@@ -1,14 +1,12 @@
 Package: CellDestiny
 Title: An RShiny application for the visualization and analysis of single cell lineage-tracing data
 Version: 1.1
-Authors@R: c(person(given = "Louisa",
-           family = "Hadj Abed",
-           role = c("aut", "cre"),
-           email = "louisa.hadj-abed@curie.fr"),
-	   person(given = "Leila",
-           family = "Perié",
-           role = c("aut"),
-           email = "leila.perie@curie.fr"))
+Authors@R: c(person(given = "Louisa", family = "Hadj Abed",
+           role = c("aut", "cre"), email = "hadjabed.louisa@gmail.com"),
+	       person(given = "Leïla", family = "Perié",
+           role = c("aut"), email = "leila.perie@curie.fr"))
+Author: Louisa Hadj Abed [aut, cre], Leïla Perié [aut]
+Maintainer: Louisa Hadj Abed <hadjabed.louisa@gmail.com>
 Description: Visualize sample qualities and highlight biological insights from your lineage-tracing data.
 License: GPL-3
 Encoding: UTF-8
