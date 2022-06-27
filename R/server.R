@@ -1263,7 +1263,7 @@ server_myApp<-function(input, output, session) {
     }
     })
 
-    observe({ if (input$catVar!="" && input$catVal>1 && input$CatGraph=="Bias analysis") {
+    observe({ if (input$catVar!="" && input$CatGraph=="Bias analysis") {
       updatePickerInput(session,
                         "yBias",
                         choices=input$catVal)
@@ -1285,11 +1285,10 @@ server_myApp<-function(input, output, session) {
     #-- B. Create sub matrix according user selections --#
     #----------------------------------------------------#
 
-
-    ######
+    ####################### Category analysis
+    # Create matrix :
     categoryMatx<-reactive({
-      if (length(input$catVal)>0 && length(input$organismCat)>0 && input$CatGraph=="Category analysis"){
-
+      if (length(input$catVal)>1 && length(input$organismCat)>0 && input$CatGraph=="Category analysis"){
         MakeCategoryMatrices(matrix(), metadata(), input$organism, input$organismCat,
                                                   input$catVar, input$catVal,
                                                   input$slider,
@@ -1297,27 +1296,7 @@ server_myApp<-function(input, output, session) {
       }
     })
 
-    biasPerCatMatx<-reactive({
-      if (length(input$catVal)>0 && length(input$organismCat)>0 && input$CatGraph=="Bias analysis"){
-
-        MakeBiasPerCatMatrix(matrix(), metadata(), input$organism, input$organismCat,
-                             cellTypeVar = input$catVar, cellTypeVal = input$catVal,
-                             condition = input$condition, conditionVal = input$conditionVal)
-      }
-    })
-
-    biasPerTypeMatx<-reactive({
-      if (length(input$catVal)>0 && length(input$organismCat)>0 && input$CatGraph=="Bias analysis"){
-
-        MakeBiasPerTypeMatrix(matrix(), metadata(), input$organism, input$organismCat,
-                             cellTypeVar = input$catVar, cellTypeVal = input$catVal,
-                             condition = input$condition, conditionVal = input$conditionVal)
-      }
-    })
-
-    ##################
-
-    ################# Category analysis
+    # Examples :
     observe({ if (length(input$catVal)<=1 && length(input$organismCat)==0 && input$CatGraph=="Category analysis"){
         output$contrib1<-renderImage({list(src ="images/contrib1.png", width="400")
                                      },deleteFile=FALSE)
@@ -1326,67 +1305,77 @@ server_myApp<-function(input, output, session) {
 
     }})
 
+    # Output plots :
     observe({
       if (length(input$catVal)>0 && length(input$organismCat)>0 && input$CatGraph=="Category analysis"){
+
         output$bargraphCat_counts<-renderPlot({
-          validate(
-            need(length(input$catVal)>1, "Select at least two values to be compared.")
-          )
+          validate(need(length(input$catVal)>1, "Select at least two values to be compared."))
           print(PlotCategoryCounts(data.frame(categoryMatx()[2]), input$slider, input$conditionVal))
         })
+
         output$bargraphCat_percent<-renderPlot({
-          validate(
-            need(length(input$catVal)>1, "Select at least two values to be compared.")
-          )
+          validate(need(length(input$catVal)>1, "Select at least two values to be compared."))
           print(PlotCategories(data.frame(categoryMatx()[1]), input$slider, input$conditionVal))})
       }
     })
 
-    bargraphCat_countsImage <- reactive({ PlotCategoryCounts(data.frame(categoryMatx()[2]), input$slider, input$conditionVal) })
-    bargraphCat_percentImage <- reactive({ PlotCategories(data.frame(categoryMatx()[1]), input$slider, input$conditionVal) })
 
     ###########
     # Exports #
     ###########
 
     output$downloadTable_counts <- downloadHandler(filename = paste0("categorisation_BcCounts_", paste0(input$organismCat, collapse = "_"),".csv"),
-                                                   content = function(fname){ write.csv(data.frame(categoryMatx()[2]), fname)}
-    )
+                                                   content = function(fname){ write.csv(data.frame(categoryMatx()[2]), fname)})
+    bargraphCat_countsImage <- reactive({ PlotCategoryCounts(data.frame(categoryMatx()[2]), input$slider, input$conditionVal) })
+    output$downloadImage_counts <- downloadHandler(filename = paste0("categorisation_BcCounts_", paste0(input$organismCat, collapse = "_"),".png"),
+                                                   content = function(fname){ ggsave(fname, plot = bargraphCat_countsImage(), device = "png")})
 
     output$downloadTable_percent <- downloadHandler(filename = paste0("categorisation_abundancesMatrix_", input$slider,"%_", paste0(input$organismCat, collapse = "_"),".csv"),
-                                                    content = function(fname){ write.csv(categoryMatx()[1], fname)}
-    )
-
-    output$downloadImage_counts <- downloadHandler(filename = paste0("categorisation_BcCounts_", paste0(input$organismCat, collapse = "_"),".png"),
-                                                   content = function(fname){ ggsave(fname, plot = bargraphCat_countsImage(), device = "png")}
-    )
-
+                                                    content = function(fname){ write.csv(categoryMatx()[1], fname)})
+    bargraphCat_percentImage <- reactive({ PlotCategories(data.frame(categoryMatx()[1]), input$slider, input$conditionVal) })
     output$downloadImage_percent <- downloadHandler(filename = paste0("categorisation_abundances_", input$slider,"%_", paste0(input$organismCat, collapse = "_"),".png"),
                                                     content = function(fname){
-                                                      ggsave(fname, plot = bargraphCat_percentImage(), device = "png")
-                                                    }
-    )
+                                                      ggsave(fname, plot = bargraphCat_percentImage(), device = "png")})
 
     ################# Bias analysis
 
+    # Create matrices :
+    biasPerTypeMatx<-reactive({
+      if (length(input$catVal)>0 && length(input$organismCat)>0 && input$CatGraph=="Bias analysis"){
+        MakeBiasPerTypeMatrix(matrix(), metadata(), input$organism, input$organismCat,
+                              cellTypeVar = input$catVar, cellTypeVal = input$catVal,
+                              condition = input$condition, conditionVal = input$conditionVal)
+      }
+    })
+
+    biasPerCatMatx<-reactive({
+      if (length(input$catVal)>0 && length(input$organismCat)>0 && input$CatGraph=="Bias analysis"){
+        MakeBiasPerCatMatrix(matrix(), metadata(), input$organism, input$organismCat,
+                             cellTypeVar = input$catVar, cellTypeVal = input$catVal,
+                             condition = input$condition, conditionVal = input$conditionVal)
+      }
+    })
+
+    # Plot graphs :
     observe({
-     if (length(input$catVal)<=1 && length(input$organismCat)>0 && input$CatGraph=="Bias analysis" && input$yBias!=""){
+     #if(length(input$catVal)<=1 && length(input$organismCat)>0 && input$CatGraph=="Bias analysis" && input$yBias!=""){
 
         # first plot
         output$biasPerType<-renderPlot({
           validate(need(length(input$catVal)>1, "Select at least two values to be compared."))
+          validate(need(input$yBias!='', "Select at least two values to be compared."))
           print(PlotBiasPerType(data.frame(biasPerTypeMatx()), y = input$yBias , input$conditionVal))
         })
 
         # Second plot
         output$biasPerCat<-renderPlot({
           validate(need(length(input$catVal)>1, "Select at least two values to be compared."))
+          validate(need(input$yBias!='', "Select at least two values to be compared."))
           print(PlotBiasPerCat(data.frame(biasPerCatMatx()), input$conditionVal))})
-     }
+     #}
     })
 
-    biasPerType_Image <- reactive({ PlotBiasPerType(data.frame(biasPerTypeMatx()), y = input$yBias , input$conditionVal) })
-    biasPerCat_Image <- reactive({ PlotBiasPerCat(data.frame(biasPerCatMatx()), input$conditionVal) })
 
     ###########
     # Exports #
@@ -1397,18 +1386,20 @@ server_myApp<-function(input, output, session) {
                                                    content = function(fname){ write.csv(data.frame(biasPerTypeMatx()), fname)}
     )
     # 1st graph export image
+    biasPerType_Image <- reactive({ PlotBiasPerType(data.frame(biasPerTypeMatx()), y = input$yBias , input$conditionVal) })
     output$downloadImage_biasType <- downloadHandler(filename = paste0("biasType_", paste0(input$organismCat, collapse = "_"),".png"),
                                                      content = function(fname){
                                                        ggsave(fname, plot = biasPerType_Image(), device = "png")
                                                      })
+
     # 2nd graph export matrix
     output$downloadTable_biasCat <- downloadHandler(filename = paste0("biasCategory_", paste0(input$organismCat, collapse = "_"),".csv"),
                                                     content = function(fname){ write.csv(biasPerCatMatx(), fname)})
     # 2nd graph export image
+    biasPerCat_Image <- reactive({ PlotBiasPerCat(data.frame(biasPerCatMatx()), input$conditionVal) })
     output$downloadImage_biasCat <- downloadHandler(filename = paste0("biasCategory_", paste0(input$organismCat, collapse = "_"),".png"),
                                                     content = function(fname){
                                                       ggsave(fname, plot = biasPerCat_Image(), device = "png")})
-
 }
 
 

@@ -978,6 +978,7 @@ tabItem(tabName = "categorisationMenu",
                        downloadButton("downloadTable_percent", "Matrix")
       ),
 
+     # print and export bias analysis graphs and matrices
       conditionalPanel("input.catVal.length>1 && input.organismCat.length>0 && input.CatGraph=='Bias analysis'",
                       # first plot
                       withLoader(plotOutput(outputId="biasPerType"), type = "html", loader = "dnaspin"),

@@ -888,86 +888,123 @@ tabItem(tabName = "diversityMenu",
   #########################
 
 tabItem(tabName = "categorisationMenu",
-  # Row of 2 big columns
- fluidRow(
-  box(status = "primary", solidHeader = FALSE, width = "100%",
+        # Row of 2 big columns
+        fluidRow(
+          box(status = "primary", solidHeader = FALSE, width = "100%",
+              # Left column == questions box
+              column(width=4,
 
-    # Left column == questions box
-    column(width=4,
-     box(width = NULL, status ="primary",solidHeader = TRUE, title="Sample selections",
-        pickerInput(inputId = "organismCat",
-                     label = "Select individual(s):",
-                     choices = NULL,
-                     multiple = TRUE,
-                     options = pickerOptions(actionsBox = TRUE,
-                                             title = "Individuals",
-                                             liveSearch = TRUE,
-                                             liveSearchStyle = "contains")),
-        pickerInput(inputId = "catVar",
-                    label = "Select the variable used for cell types:",
-                    choices = NULL,
-                    multiple = FALSE,
-                    options = pickerOptions(actionsBox = TRUE,
-                                            title = "Categorgy",
-                                            liveSearch = TRUE,
-                                            liveSearchStyle = "contains")),
-        conditionalPanel("input.catVar!=''",
-          pickerInput(inputId = "catVal",
-                    label = "Select its values:",
-                    choices = NULL,
-                    multiple = TRUE,
-                    options = pickerOptions(actionsBox = TRUE,
-                                            liveSearch = TRUE,
-                                            liveSearchStyle = "contains")))
-      ), # end of Sample selections
+                     box(width = NULL, status ="primary",height = NULL,solidHeader = TRUE,
+                         radioButtons(inputId = "CatGraph",
+                                      label = "Select the analysis:", inline = FALSE,
+                                      selected = "None",
+                                      choices = c("None", "Category analysis", "Bias analysis"))
+                     ),
 
-      box(width = NULL, status ="primary",solidHeader = TRUE,title="Graph option",
+                     conditionalPanel("input.CatGraph!='None'",
 
-        box(width = NULL, status ="primary",solidHeader = TRUE,title="Threshold value",
-         sliderInput("slider", label = "Select the threshold used for categorization:", min = 0,
-                        max = 100, value = 20)),
+                                      box(width = NULL, status ="primary",solidHeader = TRUE, title="Sample selections",
+                                          pickerInput(inputId = "organismCat",
+                                                      label = "Select individual(s):",
+                                                      choices = NULL,
+                                                      multiple = TRUE,
+                                                      options = pickerOptions(actionsBox = TRUE,
+                                                                              title = "Individuals",
+                                                                              liveSearch = TRUE,
+                                                                              liveSearchStyle = "contains")),
+                                          pickerInput(inputId = "catVar",
+                                                      label = "Select the variable used for cell types:",
+                                                      choices = NULL,
+                                                      multiple = FALSE,
+                                                      options = pickerOptions(actionsBox = TRUE,
+                                                                              title = "Categorgy",
+                                                                              liveSearch = TRUE,
+                                                                              liveSearchStyle = "contains")),
+                                          conditionalPanel("input.catVar!=''",
+                                                           pickerInput(inputId = "catVal",
+                                                                       label = "Select its values:",
+                                                                       choices = NULL,
+                                                                       multiple = TRUE,
+                                                                       options = pickerOptions(actionsBox = TRUE,
+                                                                                               liveSearch = TRUE,
+                                                                                               liveSearchStyle = "contains"))),
 
-         radioButtons(inputId = "condition",
-                      label = "Do you want to add a condition (e.g: treatment, organ, etc.) ? ", inline = TRUE,
-                      selected = "no",
-                      choices = c("no","yes")),
+                                          conditionalPanel("input.catVar!='' && input.catVal.length>1 && input.CatGraph=='Bias analysis'",
+                                                           pickerInput(inputId = "yBias",
+                                                                       label = "Select one cell type:",
+                                                                       choices = NULL,
+                                                                       multiple = FALSE,
+                                                                       options = pickerOptions(actionsBox = TRUE,
+                                                                                               liveSearch = TRUE,
+                                                                                               liveSearchStyle = "contains")))
+                                      ), # end of Sample selections
 
-         conditionalPanel("input.condition=='yes' && input.catVar!=''",
-           pickerInput(inputId = "conditionVal",
-                      label = "Select your condition value:",
-                      choices = NULL,
-                      multiple = FALSE,
-                      options = pickerOptions(actionsBox = TRUE,
-                                              title = "Condition",
-                                              liveSearch = TRUE,
-                                              liveSearchStyle = "contains")))
-     ) # end of box Graph opt
-    ), # end of left column
+                                      box(width = NULL, status ="primary",solidHeader = TRUE,title="Graph option",
 
-   column(width=8, align="center",
-    box(align="center", width = "100%", height = "100%",
-      conditionalPanel("input.catVal.length==0 && input.organismCat.length==0",
-                       imageOutput("contrib2"),
-                       imageOutput("contrib1")
-      ),
+                                          conditionalPanel("input.CatGraph=='Category analysis'",
+                                                           box(width = NULL, status ="primary",solidHeader = TRUE,title="Threshold value",
+                                                               sliderInput("slider", label = "Select the threshold used for categorization:", min = 0,
+                                                                           max = 100, value = 20))),
 
-      conditionalPanel("input.catVal.length>0 && input.organismCat.length>0 ",
-                       # first plot
-                       withLoader(plotOutput(outputId="bargraphCat_counts"), type = "html", loader = "dnaspin"),
-                       downloadButton("downloadImage_counts", "Plot"),
-                       downloadButton("downloadTable_counts", "Matrix"),
+                                          radioButtons(inputId = "condition",
+                                                       label = "Do you want to add a condition (e.g: treatment, organ, etc.) ? ", inline = TRUE,
+                                                       selected = "no",
+                                                       choices = c("no","yes")),
 
-                       # second plot
-                       plotOutput(outputId="bargraphCat_percent"),
-                       downloadButton("downloadImage_percent", "Plot"),
-                       downloadButton("downloadTable_percent", "Matrix")
-      )
-     ) # end of right box
-    ) # end of right column
+                                          conditionalPanel("input.condition=='yes' && input.catVar!=''",
+                                                           pickerInput(inputId = "conditionVal",
+                                                                       label = "Select your condition value:",
+                                                                       choices = NULL,
+                                                                       multiple = FALSE,
+                                                                       options = pickerOptions(actionsBox = TRUE,
+                                                                                               title = "Condition",
+                                                                                               liveSearch = TRUE,
+                                                                                               liveSearchStyle = "contains")))
+                                      ) # end of box Graph opt
+                     ) # end of conditional None
+              ), # end of left column
 
-  ) # end of big box
- ) # end of fluidrow
+              column(width=8, align="center",
+                     box(align="center", width = "100%", height = "100%",
+
+                         conditionalPanel("input.CatGraph=='Category analysis'",
+                                          conditionalPanel("input.catVal.length<=1 && input.organismCat.length==0",
+                                                           imageOutput("contrib2"),
+                                                           imageOutput("contrib1")
+                                          )),
+
+                         conditionalPanel("input.catVal.length>1 && input.organismCat.length>0 && input.CatGraph=='Category analysis'",
+                                          # first plot
+                                          withLoader(plotOutput(outputId="bargraphCat_counts"), type = "html", loader = "dnaspin"),
+                                          downloadButton("downloadImage_counts", "Plot"),
+                                          downloadButton("downloadTable_counts", "Matrix"),
+
+                                          # second plot
+                                          plotOutput(outputId="bargraphCat_percent"),
+                                          downloadButton("downloadImage_percent", "Plot"),
+                                          downloadButton("downloadTable_percent", "Matrix")
+                         ),
+
+                         # print and export bias analysis graphs and matrices
+                         conditionalPanel("input.catVal.length>1 && input.organismCat.length>0 && input.CatGraph=='Bias analysis'",
+                                          # first plot
+                                          withLoader(plotOutput(outputId="biasPerType"), type = "html", loader = "dnaspin"),
+                                          downloadButton("downloadImage_biasType", "Plot"),
+                                          downloadButton("downloadTable_biasType", "Matrix"),
+
+                                          # second plot
+                                          plotOutput(outputId="biasPerCat"),
+                                          downloadButton("downloadImage_biasCat", "Plot"),
+                                          downloadButton("downloadTable_biasCat", "Matrix")
+                         )
+
+                     ) # end of right box
+              ) # end of right column
+
+          ) # end of big box
+        ) # end of fluidrow
 ) # end of tabItem categorisationMenu
+
 
       )# end of TabItems
     )# end of fluidPage
