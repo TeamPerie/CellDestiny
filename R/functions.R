@@ -1709,7 +1709,7 @@ PlotDiversity <- function (matrix, diversity, listVar, indivVar, colorVar = "", 
     }
   }else { print("else nothing")}
 
-  if (dots == "yes") {
+  if (dots == "yes" & nbDots>=5) {
     boxplot <- boxplot + geom_point(position = position_dodge(width = 0.75))
     if (labels == "yes") {
       boxplot <- boxplot + geom_text(aes_string(label = indivVar),
