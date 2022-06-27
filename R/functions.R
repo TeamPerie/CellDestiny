@@ -401,7 +401,6 @@ MakeRepeatUseMatrix<-function(matrix, indivVar, indivVal){
 #'
 #' @param matrix, a wide dataframe with individuals by columns
 #' @param indivVar, indiviudal variable name
-#' @param indivCombinations, a dataframe of all 2D individual combinations
 #' @param textSize, text size, default is 15
 #'
 #' @return one or several dotplots of barcode abundances in two individuals
@@ -823,6 +822,7 @@ PlotBarcodeFrequencies<- function(subLgMatrix, colorVar="", y="density", nbins=5
 #' Plot a correlogram
 #'
 #' @param matrix, a matrix with barcode as rownames and values as columns
+#' @param correlation, correlation method between "pearson and "spearman", default is "pearson"
 #'
 #' @return a correlogram
 #'
@@ -842,6 +842,7 @@ PlotCorrelogram<-function(matrix, correlation="pearson"){
 #' @param matrixWide, a barcode count matrix
 #' @param metadata, the metadata
 #' @param indivVar, individual variable name
+#' @param indivVal, wanted individuals
 #' @param xVar, x axis variable
 #' @param xVal, x axis values
 #' @param yVar, y axis variable
@@ -986,7 +987,6 @@ PlotDotplot<- function(longMatrix, indivVar, colorVar="", transformation="arcsin
 #' @param matrix, matrix made with MakeDotPlotMatrix function
 #' @param indivVar, individual variable name
 #' @param colorVar, color variable as column in the matrix
-#' @param textSize, default is 8
 #'
 #' @return a matrix for PlotPieChart
 #'
@@ -1113,7 +1113,7 @@ MakeTernaryMatrix<-function(matrixWide, metadata, indivVar, indivVal,topVar, top
 #' @param matrix, a dataframe created by MakeTernaryMatrix function
 #' @param indivVar, individuals variable name, same as used in MakeTernaryMatrix function
 #' @param addColor, should the dots be colored by individuals, default is "no". Other is "yes"
-#' @param colorVar, variable defining your individuals only
+#' @param textSize, text size, default is 15
 #'
 #' @return a ternary plot
 #'
@@ -1181,17 +1181,17 @@ PlotTernaryPlot<-function(matrix, indivVar, addColor="no", textSize=15){
 MakeBiasPerCatMatrix<-function(matrix, metadata, indivVar, indivVal, cellTypeVar, cellTypeVal, condition = "no", conditionVal = ""){
   for(slider in seq(from=0, to = 40, by = 5)){
     if(slider==0){
-      biasMatx<-MakeCategoryMatrices(matrix, metadata,
-                                     indivVar, indivVal,
-                                     cellTypeVar, cellTypeVal,
+      biasMatx<-MakeCategoryMatrices(matrixWide = matrix, metadata = metadata,
+                                     indivVar = indivVar, indivVal = indivVal,
+                                     cellTypeVar = cellTypeVar, cellTypeVal = cellTypeVal,
                                      threshold = slider,
-                                     condition, conditionVal)[[2]]
+                                     condition = condition, conditionVal = conditionVal)[[2]]
     }else{
-      biasMatx<-rbind(biasMatx,MakeCategoryMatrices(matrix, metadata,
-                                                    indivVar, indivVal,
-                                                    cellTypeVar, cellTypeVal,
+      biasMatx<-rbind(biasMatx,MakeCategoryMatrices(matrixWide = matrix, metadata = metadata,
+                                                    indivVar = indivVar, indivVal = indivVal,
+                                                    cellTypeVar = cellTypeVar, cellTypeVal = cellTypeVal,
                                                     threshold = slider,
-                                                    condition, conditionVal)[[2]])
+                                                    condition = condition, conditionVal = conditionVal)[[2]])
     }
   }
   return(biasMatx)
@@ -1478,6 +1478,7 @@ PlotCategories<-function(catMatx, threshold=10, conditionVal="", textSize=15, le
 #'
 #' @param catCountMatx, the second matrix of the list created with MakeCategoryMatrices function
 #' @param threshold , the lineage bias threshold, default is 10
+#' @param conditionVal, condition value, default is ""
 #' @param textSize , the sier of the text, default is 15
 #'
 #' @return a bargraphe

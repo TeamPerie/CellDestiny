@@ -16,6 +16,8 @@ PlotCategoryCounts(
 
 \item{threshold}{, the lineage bias threshold, default is 10}
 
+\item{conditionVal, }{condition value, default is ""}
+
 \item{textSize}{, the sier of the text, default is 15}
 }
 \value{

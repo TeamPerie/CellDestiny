@@ -8,6 +8,8 @@ PlotCorrelogram(matrix, correlation = "pearson")
 }
 \arguments{
 \item{matrix, }{a matrix with barcode as rownames and values as columns}
+
+\item{correlation, }{correlation method between "pearson and "spearman", default is "pearson"}
 }
 \value{
 a correlogram

@@ -24,6 +24,8 @@ MakeDotPlotMatrix(
 
 \item{indivVar, }{individual variable name}
 
+\item{indivVal, }{wanted individuals}
+
 \item{xVar, }{x axis variable}
 
 \item{xVal, }{x axis values}

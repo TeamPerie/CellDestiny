@@ -12,8 +12,6 @@ PlotRepeatUse(matrix, indivVar, textSize = 15)
 \item{indivVar, }{indiviudal variable name}
 
 \item{textSize, }{text size, default is 15}
-
-\item{indivCombinations, }{a dataframe of all 2D individual combinations}
 }
 \value{
 one or several dotplots of barcode abundances in two individuals

@@ -953,7 +953,6 @@ tabItem(tabName = "categorisationMenu",
                                               title = "Condition",
                                               liveSearch = TRUE,
                                               liveSearchStyle = "contains")))
-
       ) # end of box Graph opt
      ) # end of conditional None
     ), # end of left column
@@ -962,12 +961,12 @@ tabItem(tabName = "categorisationMenu",
     box(align="center", width = "100%", height = "100%",
 
      conditionalPanel("input.CatGraph=='Category analysis'",
-      conditionalPanel("input.catVal.length==0 && input.organismCat.length==0",
+      conditionalPanel("input.catVal.length<=1 && input.organismCat.length==0",
                        imageOutput("contrib2"),
                        imageOutput("contrib1")
-      ),
+      )),
 
-      conditionalPanel("input.catVal.length>1 && input.organismCat.length>0",
+      conditionalPanel("input.catVal.length>1 && input.organismCat.length>0 && input.CatGraph=='Category analysis'",
                        # first plot
                        withLoader(plotOutput(outputId="bargraphCat_counts"), type = "html", loader = "dnaspin"),
                        downloadButton("downloadImage_counts", "Plot"),
@@ -978,7 +977,19 @@ tabItem(tabName = "categorisationMenu",
                        downloadButton("downloadImage_percent", "Plot"),
                        downloadButton("downloadTable_percent", "Matrix")
       )
-     )
+
+      conditionalPanel("input.catVal.length>1 && input.organismCat.length>0 && input.CatGraph=='Bias analysis'",
+                      # first plot
+                      withLoader(plotOutput(outputId="bargraphCat_counts"), type = "html", loader = "dnaspin"),
+                      downloadButton("downloadImage_biasType", "Plot"),
+                      downloadButton("downloadTable_biasType", "Matrix"),
+
+                      # second plot
+                      plotOutput(outputId="bargraphCat_percent"),
+                      downloadButton("downloadImage_biasCat", "Plot"),
+                      downloadButton("downloadTable_biasCat", "Matrix")
+      )
+
      ) # end of right box
     ) # end of right column
 

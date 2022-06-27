@@ -12,8 +12,6 @@ MakePieChartMatrix(matrix, indivVar, colorVar)
 \item{indivVar, }{individual variable name}
 
 \item{colorVar, }{color variable as column in the matrix}
-
-\item{textSize, }{default is 8}
 }
 \value{
 a matrix for PlotPieChart

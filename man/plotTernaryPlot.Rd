@@ -13,7 +13,7 @@ PlotTernaryPlot(matrix, indivVar, addColor = "no", textSize = 15)
 
 \item{addColor, }{should the dots be colored by individuals, default is "no". Other is "yes"}
 
-\item{colorVar, }{variable defining your individuals only}
+\item{textSize, }{text size, default is 15}
 }
 \value{
 a ternary plot
