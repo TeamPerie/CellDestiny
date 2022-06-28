@@ -1275,7 +1275,7 @@ PlotBiasPerType<-function(biasMatx, y ,conditionVal = "", textSize = 15){
 
   p<-ggplot(mat, aes(x=Threshold, y=percent_nbBc, fill=Categories),stat="identity") +
     geom_bar(colour="black", stat="identity") +
-    ylab(paste0("%BC in ", y)) +
+    ylab(paste0("% contribution to ", y)) +
     xlab("% Bias")+
     theme_classic() +
     theme(text = element_text(size = textSize)) +

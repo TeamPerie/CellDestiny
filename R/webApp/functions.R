@@ -848,6 +848,7 @@ PlotCorrelogram<-function(matrix, correlation="pearson"){
 #' @param yVar, y axis variable
 #' @param yVal, y axis values
 #' @param colorVar, color variable as column in the matrix
+#' @param transformation, transformation to use, default is "arcsin". Other is "log10"
 #'
 #' @return a matrix
 #'
@@ -1274,7 +1275,7 @@ PlotBiasPerType<-function(biasMatx, y ,conditionVal = "", textSize = 15){
 
   p<-ggplot(mat, aes(x=Threshold, y=percent_nbBc, fill=Categories),stat="identity") +
     geom_bar(colour="black", stat="identity") +
-    ylab(paste0("%BC in ", y)) +
+    ylab(paste0("% contribution to ", y)) +
     xlab("% Bias")+
     theme_classic() +
     theme(text = element_text(size = textSize)) +
@@ -1289,7 +1290,7 @@ PlotBiasPerType<-function(biasMatx, y ,conditionVal = "", textSize = 15){
 
 #' Make catergory matrices
 #'
-#' @param matrix, barcode count matrix
+#' @param matrixWide, barcode count matrix
 #' @param metadata, the metadata corresponding to the matrix
 #' @param indivVar, name of variable defining individuals
 #' @param indivVal, list of selected individuals
